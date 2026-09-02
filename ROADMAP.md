@@ -1,6 +1,6 @@
 # Roadmap
 
-Eight of twelve sections are written. This file says what's done, what's coming, and why
+Ten of twelve sections are written. This file says what's done, what's coming, and why
 the numbering has gaps.
 
 ---
@@ -8,7 +8,7 @@ the numbering has gaps.
 ## Why the numbers skip
 
 Sections are numbered by where they sit in the learning path, not by the order they were
-written. `06`–`10` are planned and unwritten, so their numbers are reserved.
+written. `06`, `09` and `10` are planned and unwritten, so their numbers are reserved.
 
 The alternative — renumbering everything as sections land — would break links from every
 other file each time. The gaps are deliberate.
@@ -26,9 +26,9 @@ other file each time. The gaps are deliberate.
 | 04 | [Agents](04-agents/) | 8 | ✅ Done |
 | 05 | [Evaluation](05-evaluation/) | 7 | ✅ Done |
 | 06 | Inference & Serving | — | 🔜 Planned |
-| 07 | Data & Pipelines | — | 🔜 Planned |
-| 08 | Observability | — | 🔜 Planned |
-| 09 | Security | — | 🔜 Planned |
+| 07 | [Production](07-production/) | 8 | ✅ Done |
+| 08 | [AI Security](08-ai-security/) | 6 | ✅ Done |
+| 09 | Data & Pipelines | — | 🔜 Planned |
 | 10 | System Design Patterns | — | 🔜 Planned |
 | 11 | [Coding Rounds](11-coding-rounds/) | 7 | ✅ Done |
 | 12 | [Senior Scenarios](12-senior-scenarios/) | 7 | ✅ Done |
@@ -48,7 +48,7 @@ capacity planning · GPU economics and utilisation.
 
 *Depends on:* [01-llm-internals](01-llm-internals/) for the underlying numbers.
 
-### 07 — Data & Pipelines
+### 09 — Data & Pipelines
 
 Everything upstream of the model. Currently the most under-served topic in this repo, and
 in most AI engineering material.
@@ -57,32 +57,19 @@ Likely files: document parsing (where a lot of RAG quality is silently lost) · 
 pipelines · incremental indexing and freshness · data quality and validation · handling
 corpus changes safely · backfills at scale · schema and versioning.
 
-### 08 — Observability
-
-Making AI systems debuggable. Referenced constantly in sections 03–05 and 12; deserves its
-own treatment.
-
-Likely files: what to log and what not to · tracing across retrieval, generation, and tool
-calls · cost attribution · the metrics that catch problems early (cache hit rate,
-attempts-per-request, abstention rate) · alerting on AI-specific signals · privacy and
-retention of prompts.
-
-### 09 — Security
-
-Currently covered where it comes up — [permissions](04-agents/permissions.md) and the
-governance scenario in [staff-level](12-senior-scenarios/staff-level.md) — but scattered.
-
-Likely files: prompt injection as an authorization problem · multi-tenant isolation ·
-data residency · secrets and credentials for agents · supply chain (third-party models,
-MCP servers, tool descriptions) · output filtering · audit requirements.
+*Depends on:* [03-rag](03-rag/) for what the index is for, and
+[08-ai-security/authorization.md](08-ai-security/authorization.md) for indexing ACLs
+alongside vectors.
 
 ### 10 — System Design Patterns
 
 Reusable shapes that recur across AI products, as reference rather than as scenarios.
 
 Likely files: request/response vs. async job vs. streaming · human-in-the-loop patterns ·
-fallback and degradation chains · caching layers · multi-region · batch vs. real-time ·
-the "thin waist" platform pattern.
+multi-region · batch vs. real-time · the "thin waist" platform pattern. Fallback chains and
+caching layers are already covered operationally in
+[07-production](07-production/) — this section would cover the architectural shapes around
+them.
 
 ---
 
@@ -141,7 +128,7 @@ were executed against their claims.
 [`scripts/verify.py`](scripts/verify.py). Changing a number in the docs fails CI until the
 check is updated too.
 
-**Plain language in the reference sections.** Sections 00–05 explain terms on first use.
+**Plain language in the reference sections.** Sections 00–08 explain terms on first use.
 Sections 11–12 are written at interview register, because that's the register you'll be
 answering in.
 

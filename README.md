@@ -5,9 +5,9 @@
 <br>
 
 [![verify](https://github.com/Laleeth/The-AI-Engineer-s-Playbook/actions/workflows/verify.yml/badge.svg)](https://github.com/Laleeth/The-AI-Engineer-s-Playbook/actions/workflows/verify.yml)
-[![code blocks verified](https://img.shields.io/badge/code%20blocks-304%20verified-2ea043)](scripts/verify.py)
+[![code blocks verified](https://img.shields.io/badge/code%20blocks-418%20verified-2ea043)](scripts/verify.py)
 [![claims checked](https://img.shields.io/badge/numeric%20claims-re--computed%20in%20CI-2ea043)](scripts/verify.py)
-[![sections](https://img.shields.io/badge/sections-8%20of%2012-f0883e)](ROADMAP.md)
+[![sections](https://img.shields.io/badge/sections-10%20of%2012-f0883e)](ROADMAP.md)
 [![license](https://img.shields.io/badge/license-see%20LICENSE-58a6ff)](LICENSE)
 
 **Everything here is scenario-driven. Every code block runs. Every number is re-computed in CI.**
@@ -74,6 +74,8 @@ flowchart LR
         A --> B["03 · RAG"]
         B --> C["04 · Agents"]
         C --> D["05 · Evaluation"]
+        D --> P["07 · Production"]
+        P --> S["08 · AI Security"]
     end
 
     subgraph PRAC["🎯 Practice — attempt before revealing"]
@@ -89,12 +91,14 @@ flowchart LR
 | I want to… | Go to |
 |---|---|
 | Prepare for interviews | [00 — Interview Framework](00-interview-framework/) — read this first |
-| Understand how something works | [01](01-llm-internals/) · [02](02-model-selection/) · [03](03-rag/) · [04](04-agents/) · [05](05-evaluation/) |
+| Understand how something works | [01](01-llm-internals/) · [02](02-model-selection/) · [03](03-rag/) · [04](04-agents/) · [05](05-evaluation/) · [07](07-production/) · [08](08-ai-security/) |
 | Practise for an interview | [11 — Coding Rounds](11-coding-rounds/) · [12 — Senior Scenarios](12-senior-scenarios/) |
-| Debug something right now | [rag-debugging](03-rag/rag-debugging.md) · [agent-failure-modes](04-agents/agent-failure-modes.md) · [production-incidents](12-senior-scenarios/production-incidents.md) |
+| Debug something right now | [rag-debugging](03-rag/rag-debugging.md) · [agent-failure-modes](04-agents/agent-failure-modes.md) · [incident-response](07-production/incident-response.md) |
 | Cut my inference bill | [prefill-vs-decode](01-llm-internals/prefill-vs-decode.md) · [cost-quality-latency](02-model-selection/cost-quality-latency.md) · [reranking](03-rag/reranking.md) |
 | Size an inference fleet | [kv-cache](01-llm-internals/kv-cache.md) · [scaling](12-senior-scenarios/scaling.md) |
 | Know if my change helped | [regression-testing](05-evaluation/regression-testing.md) |
+| Keep a live system healthy | [observability](07-production/observability.md) · [fallbacks](07-production/fallbacks.md) · [caching](07-production/caching.md) |
+| Secure an AI system | [prompt-injection](08-ai-security/prompt-injection.md) · [authorization](08-ai-security/authorization.md) · [agent-security](08-ai-security/agent-security.md) |
 
 ---
 
@@ -162,6 +166,26 @@ agent vs. workflow · tool calling · planning · memory · multi-agent · MCP �
 frameworks · golden datasets · RAG eval · LLM-as-judge · agent eval · regression testing · online measurement
 
 </td><td align="right" valign="top">7</td><td align="right" valign="top">14k</td></tr>
+
+<tr><td valign="top">
+
+**[07 · Production](07-production/)**
+
+</td><td valign="top">
+
+observability · tracing · retries · fallbacks · rate limits · caching · cost control · incident response
+
+</td><td align="right" valign="top">8</td><td align="right" valign="top">16k</td></tr>
+
+<tr><td valign="top">
+
+**[08 · AI Security](08-ai-security/)**
+
+</td><td valign="top">
+
+prompt injection · data exfiltration · tool abuse · PII · **authorization** · agent security
+
+</td><td align="right" valign="top">6</td><td align="right" valign="top">12k</td></tr>
 
 <tr><td valign="top">
 
@@ -309,8 +333,8 @@ $ python scripts/verify.py
 
 Verifying The AI Engineer's Playbook
 
-PASS  267 python blocks parse
-PASS  268 internal links resolve
+PASS  418 python blocks parse
+PASS  417 internal links resolve
 PASS  numeric claims match the prose
 
 All checks passed.
@@ -384,7 +408,7 @@ state a hypothesis, say what would *disconfirm* it, and ask for exactly that dat
 
 ## Roadmap
 
-**Eight of twelve sections are written.** Work in progress, and deliberately shared early
+**Ten of twelve sections are written.** Work in progress, and deliberately shared early
 — the failure mode worth catching is a scenario that doesn't match reality, and the only
 way to find that out is to be told.
 
