@@ -112,6 +112,52 @@ def check_claims() -> tuple[int, list[str]]:
         if not ok:
             failures.append(f"{name}: computed {got:,.4g}, docs say {expected:,.4g}")
 
+    # --- 01-llm-internals/attention.md ---
+    def attention_cost_ratio(len_a, len_b):
+        return (len_b / len_a) ** 2
+
+    check("attention 1k->4k cost ratio", attention_cost_ratio(1_000, 4_000), 16)
+    check("attention 4k->128k cost ratio", attention_cost_ratio(4_000, 128_000), 1024)
+
+    def kv_bytes_per_token(layers, kv_heads, head_dim, bytes_each=2):
+        return 2 * layers * kv_heads * head_dim * bytes_each
+
+    check("MHA cache/token (32 kv heads)", kv_bytes_per_token(32, 32, 128), 524_288)
+    check("GQA cache/token (8 kv heads)", kv_bytes_per_token(32, 8, 128), 131_072)
+    check("MQA cache/token (1 kv head)", kv_bytes_per_token(32, 1, 128), 16_384)
+    check("GQA is 4x smaller than MHA",
+          kv_bytes_per_token(32, 32, 128) / kv_bytes_per_token(32, 8, 128), 4)
+
+    # --- 01-llm-internals/kv-cache.md ---
+    check("GQA cache/token in KB", kv_bytes_per_token(32, 8, 128) / 1024, 128)
+    check("cache at 4k tokens in MB",
+          kv_bytes_per_token(32, 8, 128) * 4_000 / 1e6, 512, 0.03)
+    check("cache at 128k tokens in GB",
+          kv_bytes_per_token(32, 8, 128) * 128_000 / 1e9, 16, 0.05)
+    # 80 GB GPU, 26 GB weights, 2,500-token contexts
+    check("concurrent requests on an 80GB GPU",
+          (80 - 26) * 1e9 / (kv_bytes_per_token(32, 8, 128) * 2_500), 168, 0.02)
+
+    # --- 01-llm-internals/quantization.md ---
+    def model_size_gb(params_billion, bits):
+        return params_billion * 1e9 * bits / 8 / 1e9
+
+    check("8B at BF16", model_size_gb(8, 16), 16)
+    check("70B at BF16", model_size_gb(70, 16), 140)
+    check("8B at FP8", model_size_gb(8, 8), 8)
+    check("70B at INT4", model_size_gb(70, 4), 35)
+
+    # --- 01-llm-internals/prefill-vs-decode.md ---
+    check("prefill 2k tokens at 20k/s (ms)", 2_000 / 20_000 * 1000, 100)
+    check("decode 500 tokens at 50/s (ms)", 500 / 50 * 1000, 10_000)
+    check("decode is ~100x slower per token",
+          (1 / 50) / (1 / 20_000), 400, 0.01)   # per-token ratio
+    # capacity example: 500 rps, 2000 in, 500 out
+    check("prefill load tokens/sec", 500 * 2_000, 1_000_000)
+    check("decode load tokens/sec", 500 * 500, 250_000)
+    check("gpus for prefill", 500 * 2_000 / 20_000, 50)
+    check("gpus for decode", 500 * 500 / 2_000, 125)
+
     # --- 02-model-selection/api-vs-open-model.md ---
     def api_cost(requests, tin, tout, pin, pout):
         return requests * tin / 1e6 * pin + requests * tout / 1e6 * pout

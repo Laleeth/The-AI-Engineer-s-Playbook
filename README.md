@@ -5,14 +5,14 @@
 <br>
 
 [![verify](https://github.com/Laleeth/The-AI-Engineer-s-Playbook/actions/workflows/verify.yml/badge.svg)](https://github.com/Laleeth/The-AI-Engineer-s-Playbook/actions/workflows/verify.yml)
-[![code blocks verified](https://img.shields.io/badge/code%20blocks-267%20verified-2ea043)](scripts/verify.py)
+[![code blocks verified](https://img.shields.io/badge/code%20blocks-304%20verified-2ea043)](scripts/verify.py)
 [![claims checked](https://img.shields.io/badge/numeric%20claims-re--computed%20in%20CI-2ea043)](scripts/verify.py)
-[![sections](https://img.shields.io/badge/sections-6%20of%2012-f0883e)](#roadmap)
+[![sections](https://img.shields.io/badge/sections-8%20of%2012-f0883e)](ROADMAP.md)
 [![license](https://img.shields.io/badge/license-see%20LICENSE-58a6ff)](LICENSE)
 
 **Everything here is scenario-driven. Every code block runs. Every number is re-computed in CI.**
 
-[Start reading](#where-to-start) · [See a sample](#what-it-actually-looks-like) · [How it's verified](#how-this-is-verified) · [Roadmap](#roadmap)
+[Start reading](#where-to-start) · [See a sample](#what-it-actually-looks-like) · [How it's verified](#how-this-is-verified) · [Roadmap](ROADMAP.md)
 
 </div>
 
@@ -66,9 +66,12 @@ The repo has two kinds of content, and they're written differently on purpose.
 
 ```mermaid
 flowchart LR
+    G["00 · Interview<br/>Framework"] --> REF
+
     subgraph REF["📚 Reference — read top to bottom"]
         direction TB
-        A["02 · Model Selection"] --> B["03 · RAG"]
+        Z["01 · LLM Internals"] --> A["02 · Model Selection"]
+        A --> B["03 · RAG"]
         B --> C["04 · Agents"]
         C --> D["05 · Evaluation"]
     end
@@ -85,10 +88,12 @@ flowchart LR
 
 | I want to… | Go to |
 |---|---|
-| Understand how something works | [02](02-model-selection/) · [03](03-rag/) · [04](04-agents/) · [05](05-evaluation/) |
+| Prepare for interviews | [00 — Interview Framework](00-interview-framework/) — read this first |
+| Understand how something works | [01](01-llm-internals/) · [02](02-model-selection/) · [03](03-rag/) · [04](04-agents/) · [05](05-evaluation/) |
 | Practise for an interview | [11 — Coding Rounds](11-coding-rounds/) · [12 — Senior Scenarios](12-senior-scenarios/) |
 | Debug something right now | [rag-debugging](03-rag/rag-debugging.md) · [agent-failure-modes](04-agents/agent-failure-modes.md) · [production-incidents](12-senior-scenarios/production-incidents.md) |
-| Cut my inference bill | [cost-quality-latency](02-model-selection/cost-quality-latency.md) · [reranking](03-rag/reranking.md) |
+| Cut my inference bill | [prefill-vs-decode](01-llm-internals/prefill-vs-decode.md) · [cost-quality-latency](02-model-selection/cost-quality-latency.md) · [reranking](03-rag/reranking.md) |
+| Size an inference fleet | [kv-cache](01-llm-internals/kv-cache.md) · [scaling](12-senior-scenarios/scaling.md) |
 | Know if my change helped | [regression-testing](05-evaluation/regression-testing.md) |
 
 ---
@@ -97,6 +102,26 @@ flowchart LR
 
 <table>
 <tr><th align="left">Section</th><th align="left">Covers</th><th align="right">Files</th><th align="right">Words</th></tr>
+
+<tr><td valign="top">
+
+**[00 · Interview Framework](00-interview-framework/)**
+
+</td><td valign="top">
+
+what interviewers test · junior vs. mid vs. senior · answering system design · answering debugging
+
+</td><td align="right" valign="top">4</td><td align="right" valign="top">8k</td></tr>
+
+<tr><td valign="top">
+
+**[01 · LLM Internals](01-llm-internals/)**
+
+</td><td valign="top">
+
+attention · tokenization · positional encoding · **KV cache** · prefill vs. decode · quantization · speculative decoding
+
+</td><td align="right" valign="top">7</td><td align="right" valign="top">11k</td></tr>
 
 <tr><td valign="top">
 
@@ -158,11 +183,14 @@ architecture trade-offs · production incidents · cost vs. quality · build vs.
 
 </td><td align="right" valign="top">7</td><td align="right" valign="top">75k</td></tr>
 
-<tr><td colspan="2" align="right"><b>Total</b></td><td align="right"><b>43</b></td><td align="right"><b>170k</b></td></tr>
+<tr><td colspan="2" align="right"><b>Total</b></td><td align="right"><b>54</b></td><td align="right"><b>190k</b></td></tr>
 </table>
 
 **60 scenarios and coding problems**, many of which change their constraints round by
 round.
+
+> **Only 03 is about RAG.** Retrieval is one section of eight. The rest covers inference
+> internals, model economics, agents, evaluation, and production operations.
 
 ---
 
@@ -356,24 +384,18 @@ state a hypothesis, say what would *disconfirm* it, and ask for exactly that dat
 
 ## Roadmap
 
-Six of twelve planned sections are written. Work in progress, and deliberately shared
-early — the failure mode worth catching is a scenario that doesn't match reality, and the
-only way to find that out is to be told.
+**Eight of twelve sections are written.** Work in progress, and deliberately shared early
+— the failure mode worth catching is a scenario that doesn't match reality, and the only
+way to find that out is to be told.
 
-| | Section | Status |
-|---|---|---|
-| 01 | Foundations — prompting, structured output, context | 🔜 Planned |
-| 02 | Model Selection | ✅ Done |
-| 03 | RAG | ✅ Done |
-| 04 | Agents | ✅ Done |
-| 05 | Evaluation | ✅ Done |
-| 06 | Inference & Serving | 🔜 Planned |
-| 07 | Data & Pipelines | 🔜 Planned |
-| 08 | Observability | 🔜 Planned |
-| 09 | Security | 🔜 Planned |
-| 10 | System Design | 🔜 Planned |
-| 11 | Coding Rounds | ✅ Done |
-| 12 | Senior Scenarios | ✅ Done |
+Still to come: **06** Inference & Serving · **07** Data & Pipelines · **08** Observability
+· **09** Security · **10** System Design Patterns.
+
+The numbering has gaps because sections are numbered by where they sit in the learning
+path, not by when they were written. Renumbering as each one lands would break links from
+every other file.
+
+**[→ Full roadmap, including what is deliberately *not* planned](ROADMAP.md)**
 
 ---
 
