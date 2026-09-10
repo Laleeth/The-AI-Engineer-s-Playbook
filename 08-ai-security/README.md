@@ -8,9 +8,9 @@ One idea runs through all six files:
 > **You cannot make the model trustworthy. You make being tricked not matter.**
 
 Every control in this section is either a *guarantee* (a credential that doesn't exist, an
-operation the signature can't express, a counter in your code) or *defence in depth* (a
+operation the signature can't express, a counter in your code) or *defense in depth* (a
 system prompt, a delimiter, a detector). The skill is knowing which is which — and never
-putting a defence-in-depth control in a load-bearing position.
+putting a defense-in-depth control in a load-bearing position.
 
 ## The files
 
@@ -19,7 +19,7 @@ putting a defence-in-depth control in a load-bearing position.
 | [prompt-injection.md](prompt-injection.md) | The defining problem, and why prompting can't solve it |
 | [data-exfiltration.md](data-exfiltration.md) | Every channel data leaves by — including the one with no tool |
 | [tool-abuse.md](tool-abuse.md) | Designing tools so misuse is bounded |
-| [pii.md](pii.md) | Personal data: minimising, redacting, deleting, residency |
+| [pii.md](pii.md) | Personal data: minimizing, redacting, deleting, residency |
 | [authorization.md](authorization.md) | Who can see what and do what — the layer under everything above |
 | [agent-security.md](agent-security.md) | The full agent threat model, and designing for compromise |
 
@@ -60,7 +60,7 @@ returns whatever a customer typed.
 parameter the model fills in is one injection away from horizontal privilege escalation.
 
 **Caps make misbehaviour survivable.** A per-run limit of 1 turns the 312-message incident
-into one message. You can't guarantee good behaviour; you can guarantee bad behaviour is
+into one message. You can't guarantee good behavior; you can guarantee bad behavior is
 bounded.
 
 **Design so mistakes fail closed.** A wrong namespace returns nothing. A missing filter on a

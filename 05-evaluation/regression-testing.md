@@ -165,13 +165,13 @@ def examples_needed(effect, sd_of_differences=0.42, power=0.8, alpha=0.05):
 If your two versions disagree on far more or far fewer cases than 18%, recompute with
 your own number — measure it from a real comparison rather than trusting the table.
 
-Two consequences worth internalising:
+Two consequences worth internalizing:
 
 **Small eval sets can only catch big breaks.** That's genuinely fine — a 200-case set
 that catches every 10-point disaster is doing useful work. Just don't claim it can
 detect a 2-point improvement.
 
-**Detecting a 1-point improvement offline is usually not worth it.** 14,000 labelled
+**Detecting a 1-point improvement offline is usually not worth it.** 14,000 labeled
 examples costs more than measuring it online. Know when to stop.
 
 ---
@@ -261,7 +261,7 @@ Some real problems leave the quality score untouched.
 
 **Latency.** Same quality, twice as slow.
 
-**Length.** Answers creep longer over time — a classic side effect of optimising
+**Length.** Answers creep longer over time — a classic side effect of optimizing
 against a judge that prefers long answers. Track mean output length.
 
 **Refusal rate.** The system starts declining things it used to handle. Scores fine on

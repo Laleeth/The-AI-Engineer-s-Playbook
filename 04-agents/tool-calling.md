@@ -411,7 +411,7 @@ Reads yes, writes no. Explain the ordering and duplicate-side-effect risks.
 
 **5. "How do you test tool selection?"**
 
-A small labelled set of message → expected tool, run on every tool or description
+A small labeled set of message → expected tool, run on every tool or description
 change. Mention that adding a tool changes selection across all of them.
 
 ---

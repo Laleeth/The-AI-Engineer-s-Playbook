@@ -94,7 +94,7 @@ question.
 The cheapest high-value question in debugging. If it worked last week, something changed —
 and the list of things that change is short and enumerable.
 
-**Things that change production behaviour without a deploy:**
+**Things that change production behavior without a deploy:**
 
 ```python
 NON_DEPLOY_CHANGES = [
@@ -239,7 +239,7 @@ queued work drains at once, every client's circuit breaker closes simultaneously
 user who's been refreshing arrives together.
 
 - Ramp: half-open probing, controlled queue drain, jitter everywhere.
-- Prioritise interactive over batch.
+- Prioritize interactive over batch.
 - Watch for second-order failures — your database may not be sized for the burst either.
 
 **Many incidents have two outages.** Treating recovery as "and then it was fine" is how you
@@ -298,13 +298,13 @@ Sections worth having:
 Distinguishing these is what turns a postmortem into a systemic fix:
 
 - **Mechanism:** editing the prompt invalidated the prefix cache.
-- **Root cause:** a PM can change production behaviour through a UI with no review, no
+- **Root cause:** a PM can change production behavior through a UI with no review, no
   canary, and no visibility into the consequence.
 
 Fix the mechanism and this incident won't recur. Fix the root cause and a whole class
 won't.
 
-Then generalise: *what else can change production behaviour without going through a deploy
+Then generalize: *what else can change production behavior without going through a deploy
 pipeline?* Prompts, feature flags, corpus imports, retrieval configs, provider-side model
 updates. That question, asked once, is worth more than most action items.
 
@@ -402,7 +402,7 @@ abstention rate.
   thing at a time.
 - Recovery is its own phase. Ramp it.
 - Ask whether wrong data was written. That outlives the incident.
-- Separate mechanism from root cause, and generalise the root cause.
+- Separate mechanism from root cause, and generalize the root cause.
 - If customers detect your incidents, monitoring is the finding.
 
 ---

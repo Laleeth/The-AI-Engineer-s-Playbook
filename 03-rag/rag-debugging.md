@@ -128,7 +128,7 @@ Ranked 30th, you only kept 5.
 ### Nothing relevant exists
 
 Sometimes the answer genuinely isn't in your corpus. That's a content problem, not an
-engineering one — and the correct behaviour is to say "I don't have that information."
+engineering one — and the correct behavior is to say "I don't have that information."
 
 Check that path works. Systems that never abstain hallucinate whenever retrieval fails,
 and retrieval fails regularly.
@@ -224,7 +224,7 @@ If 41% of retrieved chunks suddenly come from a source that didn't exist last we
 that's your answer.
 
 **The provider updated the model.** Your config didn't change; their model did. Detect it
-by replaying a fixed set of requests periodically and watching for behaviour shifts.
+by replaying a fixed set of requests periodically and watching for behavior shifts.
 
 ---
 

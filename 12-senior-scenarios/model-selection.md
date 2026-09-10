@@ -215,7 +215,7 @@ on what actually fails.
 **Round 2 — "The smaller model fails on 8% of difficult documents. What now?"**
 
 <details>
-<summary>💡 Reveal</summary>
+<summary>💡 Reveal the reasoning path</summary>
 
 First: **8% of what, failing how?** The response depends entirely on the failure
 mode, and asking is the correct first move:
@@ -255,7 +255,7 @@ that the claim-type classification is 91% accurate, not the 95% you promised. Th
 backfill is running. What do you do?"**
 
 <details>
-<summary>💡 Reveal</summary>
+<summary>💡 Reveal the reasoning path</summary>
 
 Three questions before any action:
 
@@ -299,7 +299,7 @@ substantially.
 measurably better. Do you switch mid-backfill?"**
 
 <details>
-<summary>💡 Reveal</summary>
+<summary>💡 Reveal the reasoning path</summary>
 
 The tension: better and cheaper is obviously attractive, but **switching mid-backfill
 means your 30M records were produced by two different systems**, which matters for

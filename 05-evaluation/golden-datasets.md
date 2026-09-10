@@ -45,7 +45,7 @@ def sample_production(logs, n=1000, days=30):
 
 ### 2. Tag each one
 
-Before labelling answers, tag what kind of request it is. This is what lets you
+Before labeling answers, tag what kind of request it is. This is what lets you
 segment later, and it's much easier to do now than to retrofit.
 
 ```python
@@ -115,7 +115,7 @@ rubber-stamping.
 **Label the easy part with code.** For extraction tasks, existing structured data is
 often already the answer.
 
-**Start small.** 100 well-labelled cases beat 1,000 sloppy ones. You can grow it.
+**Start small.** 100 well-labeled cases beat 1,000 sloppy ones. You can grow it.
 
 ### 5. Check your labels
 
@@ -133,7 +133,7 @@ def agreement(labels_a, labels_b):
 ```
 
 If two humans agree less than about 80% of the time, the problem isn't the labellers —
-it's that your definition of "correct" is unclear. Fix the definition before labelling
+it's that your definition of "correct" is unclear. Fix the definition before labeling
 more.
 
 This is also the honest answer to "why is our accuracy stuck at 91%?" Sometimes the
@@ -170,7 +170,7 @@ Fix: refresh quarterly. Sample new production data, re-label, add it in.
 
 ### Problem 2: you overfit to it
 
-You've been optimising against the same 400 examples for six months. Your system is now
+You've been optimizing against the same 400 examples for six months. Your system is now
 excellent at those 400 examples. That is not the same as being good.
 
 Fix: **keep three sets.**

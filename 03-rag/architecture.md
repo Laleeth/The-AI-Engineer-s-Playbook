@@ -57,6 +57,9 @@ and footers repeated on every page, scanned pages that need OCR.
 If your parsing mangles tables, no amount of clever retrieval will fix the answers. Look
 at your parsed output before you build anything on top of it. Actually read some of it.
 
+Full detail in
+[09-data-pipelines/document-parsing.md](../09-data-pipelines/document-parsing.md).
+
 ### Chunking
 
 Splitting documents into pieces. Too big and each chunk covers several topics, so its

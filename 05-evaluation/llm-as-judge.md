@@ -5,7 +5,7 @@ reasonably well — as long as you know what it's bad at and check it against re
 occasionally.
 
 The risk isn't that judges are useless. It's that they produce confident numbers that
-*look* like measurement, so nobody checks them, and the whole team optimises toward
+*look* like measurement, so nobody checks them, and the whole team optimizes toward
 something nobody validated.
 
 ---
@@ -103,11 +103,11 @@ same argument as segmenting your dataset, applied to the scoring side.
 ## What judges are bad at
 
 Every one of these is a real, documented bias. Know them, because they shape what your
-system will drift toward if you optimise against a judge blindly.
+system will drift toward if you optimize against a judge blindly.
 
 ### They prefer longer answers
 
-A thorough-looking answer scores higher than a concise correct one. If you optimise
+A thorough-looking answer scores higher than a concise correct one. If you optimize
 against a judge, your answers get longer over time — and your costs go up while your
 users get more to read.
 
@@ -133,10 +133,10 @@ and is right scores higher than a confident answer that is wrong.
 
 ### Position bias in comparisons
 
-If you show two answers and ask which is better, the judge favours one position — often
+If you show two answers and ask which is better, the judge favors one position — often
 the first.
 
-**Always randomise, and ideally run both orders:**
+**Always randomize, and ideally run both orders:**
 
 ```python
 async def compare(a, b, judge):
@@ -154,7 +154,7 @@ async def compare(a, b, judge):
 That "tie" case is informative on its own. If 30% of comparisons are inconsistent, your
 judge isn't reliable enough for pairwise use on this task.
 
-### They favour their own style
+### They favor their own style
 
 A judge tends to prefer outputs from the same model family — similar phrasing,
 structure, formatting. If you're comparing two different models with one judge, that's
@@ -314,7 +314,7 @@ you've done this, you have a number, not a measurement.
 **2. "What biases do judges have?"**
 
 Longer answers, confident phrasing, position in pairwise comparisons, their own model
-family's style. Then say what you'd do about each — rubric wording, randomised order,
+family's style. Then say what you'd do about each — rubric wording, randomized order,
 different judge family.
 
 **3. "Your provider updated the judge model. What happens?"**
@@ -342,7 +342,7 @@ is a bug in the offline metric and should be investigated as one.
 - Small scale (0–4), each level described, with a reference and a reason.
 - Split axes — correctness, completeness, grounding, tone.
 - Known biases: length, confidence, position, own-family style.
-- Randomise order in pairwise comparisons and run both ways.
+- Randomize order in pairwise comparisons and run both ways.
 - Temperature 0, and measure the remaining wobble.
 - Check against humans on 50 cases a month. Without this it's not a measurement.
 - Pin the judge version and record it with every score.

@@ -3,13 +3,13 @@
 Three things you want, and improving one usually costs you another. Every model decision
 is a position on this triangle, whether you chose it deliberately or not.
 
-Most teams optimise one of them by accident and discover the damage later.
+Most teams optimize one of them by accident and discover the damage later.
 
 ---
 
 ## Where the money and the time actually go
 
-Before optimising anything, know which lever moves which number. This trips people up
+Before optimizing anything, know which lever moves which number. This trips people up
 constantly:
 
 > **Input tokens mostly drive cost. Output tokens mostly drive latency.**
@@ -26,7 +26,7 @@ in parallel. So a 2,000-token input might take 200ms to process, while a 500-tok
 output takes 5 seconds.
 
 The practical consequence: **if your bill is too high, look at input first. If it's too
-slow, look at output first.** Optimising the wrong one is the most common wasted week in
+slow, look at output first.** Optimizing the wrong one is the most common wasted week in
 this work.
 
 ```python
@@ -49,7 +49,7 @@ Run that on your own numbers before you plan anything.
 
 ## The levers, ranked
 
-Not all optimisations are equal. Ranked by value-per-risk:
+Not all optimizations are equal. Ranked by value-per-risk:
 
 | Lever | Attacks | Typical saving | Quality risk |
 |---|---|---|---|
@@ -116,10 +116,10 @@ intuitive but true: fewer, better documents beat more, worse ones. See
 one at a time and check whether quality drops. A meaningful fraction is usually dead
 weight from a problem that no longer exists.
 
-**Scope the context to the task.** Does "summarise this paragraph" really need the whole
+**Scope the context to the task.** Does "summarize this paragraph" really need the whole
 document? Often it sends the whole document because that was easier to write.
 
-**Summarise conversation history.** After a few turns, compress older turns instead of
+**Summarize conversation history.** After a few turns, compress older turns instead of
 resending them verbatim.
 
 ---

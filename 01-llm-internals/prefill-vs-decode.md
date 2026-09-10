@@ -33,7 +33,7 @@ Time is roughly linear in prompt length: a 2,000-token prompt takes about twice 
 ### Decode — writing the response
 
 One token at a time. Each token depends on the one before it, so there's no way to
-parallelise within a request.
+parallelize within a request.
 
 ```
                     → [The] → [fox] → [jumped] → [over] → ...
@@ -101,7 +101,7 @@ there's 10× more of it.
 > **Too slow?** Look at output tokens first — shorter responses, streaming, structured
 > output.
 
-Optimising the wrong one is the most common wasted week in this work.
+Optimizing the wrong one is the most common wasted week in this work.
 
 ---
 
@@ -235,7 +235,7 @@ it's the thing candidates most often get backwards.
 
 ---
 
-## Optimising each phase
+## Optimizing each phase
 
 **Prefill (cost, TTFT):**
 - Prompt caching — the biggest lever if you have a shared prefix

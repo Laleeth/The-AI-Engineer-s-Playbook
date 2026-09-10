@@ -93,7 +93,7 @@ def with_neighbours(chunk, doc, before=100, after=100):
 Cheap. Helps when meaning spills across boundaries. Costs some duplication.
 
 A variant worth knowing: **retrieve small, send big.** Search using small precise chunks,
-then expand to neighbours before putting them in the prompt. You get precision in search
+then expand to neighbors before putting them in the prompt. You get precision in search
 and context in generation.
 
 ---
@@ -161,7 +161,7 @@ Three ways to bring that down:
 Cache it and you pay full price once per document instead of once per chunk. This is the
 biggest lever by far — often an 80–90% reduction.
 
-**Use a small model.** This is a simple summarising task. A small cheap model does it
+**Use a small model.** This is a simple summarizing task. A small cheap model does it
 well.
 
 **Only contextualise where it helps.** Chunks that already contain clear context don't
@@ -259,7 +259,7 @@ matters.
 **Embedding the enriched text but displaying it too.** Your citations then show text that
 isn't in the source document, and highlighting breaks. Store both; display the original.
 
-**The generated context is wrong.** The model summarises the chunk incorrectly and now
+**The generated context is wrong.** The model summarizes the chunk incorrectly and now
 you've embedded a wrong description. Sample and check some. This is a silent failure —
 retrieval just gets worse for reasons nobody can see.
 

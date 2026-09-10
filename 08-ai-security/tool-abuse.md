@@ -45,7 +45,7 @@ RULES = {
 ```
 
 This one table gives you most of your protection: reads run freely, changes are limited and
-serialised, destructive actions need a human.
+serialized, destructive actions need a human.
 
 ---
 
@@ -282,8 +282,8 @@ async def test_destructive_needs_approval():
     assert not payment_was_made()
 ```
 
-That first test is the important one. It doesn't test good behaviour; it tests that bad
-behaviour is contained — which is the property you can actually rely on.
+That first test is the important one. It doesn't test good behavior; it tests that bad
+behavior is contained — which is the property you can actually rely on.
 
 ---
 
@@ -337,7 +337,7 @@ destructive tool should block without approval.
 - Parallel reads are fine; parallel writes are not.
 - Per-agent quotas on shared internal APIs, or an agent can DoS your own systems.
 - Third-party tool descriptions are untrusted input.
-- Test that misbehaviour is survivable, not that behaviour is good.
+- Test that misbehaviour is survivable, not that behavior is good.
 
 ---
 

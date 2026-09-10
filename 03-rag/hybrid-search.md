@@ -94,7 +94,7 @@ def tokenize(text):
 class BM25:
     def __init__(self, k1=1.5, b=0.75):
         self.k1 = k1          # how much repeated terms help
-        self.b = b            # how much to penalise long documents
+        self.b = b            # how much to penalize long documents
         self.doc_len = []
         self.postings = defaultdict(dict)    # term -> {doc_index: count}
         self.avgdl = 0.0
@@ -145,12 +145,12 @@ inverted index means cost scales with matches, not corpus size. It's fast.
 You have two ranked lists with incomparable scores. BM25 scores are unbounded and depend
 on your corpus. Cosine similarity is between -1 and 1. You can't just add them.
 
-### Option 1: normalise and add (works, but fragile)
+### Option 1: normalize and add (works, but fragile)
 
 ```python
 def weighted_fusion(dense, sparse, alpha=0.5):
-    """Normalise each list to 0-1, then blend."""
-    def normalise(results):
+    """Normalize each list to 0-1, then blend."""
+    def normalize(results):
         if not results:
             return {}
         scores = [s for _, s in results]
@@ -158,15 +158,15 @@ def weighted_fusion(dense, sparse, alpha=0.5):
         span = (hi - lo) or 1.0
         return {doc: (s - lo) / span for doc, s in results}
 
-    d, s = normalise(dense), normalise(sparse)
+    d, s = normalize(dense), normalize(sparse)
     combined = {}
     for doc in set(d) | set(s):
         combined[doc] = alpha * d.get(doc, 0) + (1 - alpha) * s.get(doc, 0)
     return sorted(combined.items(), key=lambda kv: -kv[1])
 ```
 
-The problem: normalising depends on the min and max *in this result set*. If one search
-returns three results and the other returns fifty, the normalisation means different
+The problem: normalizing depends on the min and max *in this result set*. If one search
+returns three results and the other returns fifty, the normalization means different
 things. It's unstable, especially on queries where one method finds almost nothing.
 
 ### Option 2: Reciprocal Rank Fusion (better default)
@@ -178,7 +178,7 @@ def rrf(rankings, k=60, weights=None):
     """Reciprocal Rank Fusion.
 
     Each list contributes 1/(k + rank) for each document. No score
-    normalisation needed, which sidesteps the whole comparability problem.
+    normalization needed, which sidesteps the whole comparability problem.
 
     k=60 is the common default. Smaller k weights the top results more
     heavily; larger k flattens the difference between positions.
@@ -326,7 +326,7 @@ identifiers, versions, names, rare terms.
 
 **2. "How do you combine two ranked lists?"**
 
-RRF, and explain why: BM25 and cosine scores aren't comparable, and normalising is
+RRF, and explain why: BM25 and cosine scores aren't comparable, and normalizing is
 unstable when one list is short. Combining by rank sidesteps it entirely.
 
 **3. "When would you not use hybrid search?"**
@@ -358,7 +358,7 @@ jobs.
   vectors.
 - Keyword search fails on paraphrase.
 - Run both, fuse the results.
-- Use RRF by default — no score normalisation, no tuning, robust.
+- Use RRF by default — no score normalization, no tuning, robust.
 - Your tokenizer must keep identifiers intact. Test it.
 - Retrieve 50 from each, fuse, keep 10.
 - Filter permissions inside both searches, not after.

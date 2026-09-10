@@ -3,7 +3,7 @@
 The naive version of this problem is a `for` loop. The interview version is everything
 that goes wrong when you replace it with `asyncio.gather` on ten thousand items: you
 exhaust the provider's rate limit, you hold ten thousand documents in memory, one
-failure loses the whole batch, and cancelling does nothing because every coroutine is
+failure loses the whole batch, and canceling does nothing because every coroutine is
 already scheduled.
 
 Two problems:
@@ -355,7 +355,7 @@ async def _run_one(
             )
 
         except asyncio.CancelledError:
-            # Do not retry a cancelled item and do not swallow the exception:
+            # Do not retry a canceled item and do not swallow the exception:
             # swallowing CancelledError makes the whole pool uncancellable.
             raise
 
@@ -464,7 +464,7 @@ halfway through, the sentinels are still pushed, so workers don't hang.
 
 **Cancellation is handled in `finally`, and it awaits.** Three cases reach that block:
 normal completion, the caller breaking out of the `async for`, and cancellation of the
-consuming task. In all three, tasks are cancelled *and awaited*. Cancelling without
+consuming task. In all three, tasks are canceled *and awaited*. Canceling without
 awaiting is the classic bug — the event loop reports "Task was destroyed but it is
 pending", and in a real system the underlying HTTP connections are not released.
 

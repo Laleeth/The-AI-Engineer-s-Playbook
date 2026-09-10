@@ -316,12 +316,12 @@ Strip it during parsing.
 
 A useful pattern when small chunks retrieve well but lack context to answer from.
 
-Retrieve using small precise chunks, then expand to their neighbours before sending to
+Retrieve using small precise chunks, then expand to their neighbors before sending to
 the model:
 
 ```python
 def expand(chunk, doc, window=1):
-    """Retrieved a small chunk — send it plus its neighbours."""
+    """Retrieved a small chunk — send it plus its neighbors."""
     siblings = chunks_for(doc.id)
     i = siblings.index(chunk)
     lo = max(0, i - window)

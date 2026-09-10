@@ -110,12 +110,12 @@ This is the part people miss, and it changes the answer more than volume does.
 - Latency-tolerant, or latency-critical in a way an API can't meet
 
 **Bad for self-hosting:**
-- Long inputs and long outputs (document summarisation, long-form writing)
+- Long inputs and long outputs (document summarization, long-form writing)
 - Spiky traffic — quiet at night, 10× at lunch
 - Many different tasks needing different capabilities
 - You need the strongest reasoning available
 
-Why? Because self-hosting economics live or die on **GPU utilisation**. A GPU costs the
+Why? Because self-hosting economics live or die on **GPU utilization**. A GPU costs the
 same whether it's busy or idle. If your traffic is 10× at peak and quiet overnight, you
 either pay for peak capacity all day (terrible economics) or queue at peak (bad
 latency).
@@ -226,8 +226,8 @@ handle continuous batching (running many requests together efficiently) and page
 attention (managing memory for many concurrent requests) far better than anything you'll
 write in a month.
 
-**Measure utilisation, not throughput.** Your business case assumed a utilisation
-number. Check it. 45% utilisation instead of 80% roughly doubles your cost per request
+**Measure utilization, not throughput.** Your business case assumed a utilization
+number. Check it. 45% utilization instead of 80% roughly doubles your cost per request
 and can wipe out the whole saving.
 
 **Keep an API fallback, with real traffic on it.** Two reasons: it absorbs traffic
@@ -280,14 +280,14 @@ who picks a side before asking is guessing.
 **2. "At what point does self-hosting make sense?"**
 
 Roughly $30–50k/month of API spend, *and* a workload shape that gives high GPU
-utilisation, *and* a team that can run it. All three, not just the first. Then mention
+utilization, *and* a team that can run it. All three, not just the first. Then mention
 that a data-residency requirement can override the economics entirely.
 
-**3. "Your business case assumed 80% GPU utilisation. It's running at 45%. Now what?"**
+**3. "Your business case assumed 80% GPU utilization. It's running at 45%. Now what?"**
 
 Cost per request has roughly doubled and the saving may be gone. Options: consolidate
 workloads onto the same GPUs, use the spare capacity for batch jobs, shrink the fleet
-and send peak traffic to the API, or unwind. The important part is having modelled the
+and send peak traffic to the API, or unwind. The important part is having modeled the
 diurnal traffic curve rather than the average.
 
 **4. "What's the biggest hidden cost of self-hosting?"**
@@ -307,7 +307,7 @@ rollback, keeping the API path permanently for overflow.
 - Do the arithmetic before the argument. Volume, token counts, traffic shape.
 - Below roughly $30–50k/month API spend, self-hosting rarely pays.
 - Engineers cost more than GPUs. Two of them is $50k/month.
-- Utilisation decides the economics. Spiky traffic ruins it.
+- Utilization decides the economics. Spiky traffic ruins it.
 - Short inputs and outputs suit self-hosting; long ones don't.
 - Data-residency rules can override cost entirely — check what the rule actually says.
 - Self-hosting means you own model quality forever; APIs can change under you.

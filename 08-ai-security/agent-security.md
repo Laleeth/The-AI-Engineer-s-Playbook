@@ -113,7 +113,7 @@ await action_agent.run(summary)                           # has write tools
 This is the agent version of "never have high-sensitivity access and open egress in the same
 context" from [data-exfiltration.md](data-exfiltration.md). Splitting the privilege across
 steps is more effective than any amount of instruction, because the compromised step has no
-authority and the authorised step never sees the attack.
+authority and the authorized step never sees the attack.
 
 ---
 
@@ -147,7 +147,7 @@ Rules that make memory survivable:
 - **Store facts, not instructions.** "Customer prefers email" is a fact. "Always CC X" is a
   policy, and policies come from your code, not from text the agent read.
 - **Track provenance.** A memory derived from a retrieved document is not the same as one
-  the user stated, and only the second should shape behaviour.
+  the user stated, and only the second should shape behavior.
 - **Scope it per user** — see [authorization.md](authorization.md); cross-user memory is both
   a breach and an injection vector.
 - **Make it inspectable and deletable.** You need to be able to answer "why did the agent do
@@ -294,7 +294,7 @@ from the record alone:
 - What did the agent do, in what order?
 - What content did it read before each decision?
 - Which principal was it acting for?
-- Which step introduced the untrusted content that changed its behaviour?
+- Which step introduced the untrusted content that changed its behavior?
 
 ```python
 def log_step(run_id, step, principal, action, args, sources):

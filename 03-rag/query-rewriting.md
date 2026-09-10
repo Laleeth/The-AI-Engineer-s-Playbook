@@ -368,7 +368,7 @@ you haven't measured a problem — it's a model call on every request and should
 - Gate it: rewrite short messages and ones with pronouns, not everything.
 - Always keep the original query in the mix.
 - Check identifiers survive the rewrite, automatically.
-- Free fixes first: normalise punctuation, detect too-vague queries and ask instead.
+- Free fixes first: normalize punctuation, detect too-vague queries and ask instead.
 - HyDE searches with a fake answer — test whether it helps on your data.
 - Measure segmented by follow-up versus standalone.
 

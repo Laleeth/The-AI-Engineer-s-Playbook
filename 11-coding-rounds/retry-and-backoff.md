@@ -420,14 +420,14 @@ some retries happen almost immediately; the benefit is that the herd is gone. Fo
 latency-sensitive paths, `equal_jitter` is the reasonable compromise, and offering both
 rather than hardcoding one is the right library design.
 
-**`Retry-After` is honoured but capped.** The provider knows more than your curve does.
+**`Retry-After` is honored but capped.** The provider knows more than your curve does.
 But a `Retry-After: 600` inside a request handler must not become a 10-minute sleep
 holding a connection and a worker thread — cap it, and let the deadline check turn it
 into a fast failure.
 
 **`CancelledError` is explicitly re-raised before the general handler.** This is the
 most common bug in retry code. Catching it and retrying makes tasks uncancellable, which
-turns a graceful shutdown into a hang and a cancelled request into continued spend.
+turns a graceful shutdown into a hang and a canceled request into continued spend.
 `KeyboardInterrupt` and `SystemExit` get the same treatment.
 
 **The `on_retry` hook is wrapped in its own try/except.** A metrics call that throws must
@@ -585,7 +585,7 @@ The parameters that matter and are usually chosen badly:
 </details>
 
 <details>
-<summary>✅ Reveal the implementation</summary>
+<summary>✅ Reveal the reference implementation</summary>
 
 ```python
 """Circuit breaker with a sliding window and bounded probing."""
@@ -826,7 +826,7 @@ system can afford it*," and it's the piece most hand-rolled retry code lacks.
 </details>
 
 <details>
-<summary>✅ Reveal the implementation</summary>
+<summary>✅ Reveal the reference implementation</summary>
 
 ```python
 """Global retry budget: bound retries as a fraction of total traffic."""

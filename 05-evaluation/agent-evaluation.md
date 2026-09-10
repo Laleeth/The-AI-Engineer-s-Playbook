@@ -18,7 +18,7 @@ An agent finishes and says:
 > "I've created ticket TICK-4471 and emailed the customer."
 
 Did it? Maybe. Or maybe it drafted both and treated writing them as doing them. Or a
-tool failed and it summarised optimistically.
+tool failed and it summarized optimistically.
 
 Text-based scoring passes this. It reads like a correct answer. It says the right
 things.
@@ -112,7 +112,7 @@ def path_score(case, run):
     required = set(case.required_tools)
     coverage = len(required & called_set) / len(required) if required else 1.0
 
-    # Penalise repeated calls (a sign of looping)
+    # Penalize repeated calls (a sign of looping)
     waste = (len(called) - len(called_set)) / max(1, len(called))
 
     return max(0.0, coverage - 0.5 * waste)

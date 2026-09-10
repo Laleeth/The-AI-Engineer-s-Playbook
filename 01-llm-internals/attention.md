@@ -181,7 +181,7 @@ memory, then reads it back. For long sequences that's a lot of memory traffic, a
 bandwidth is the bottleneck on modern GPUs, not arithmetic.
 
 Flash Attention computes attention in tiles that fit in fast on-chip memory, never
-materialising the full matrix. Same output, substantially faster, and much less memory.
+materializing the full matrix. Same output, substantially faster, and much less memory.
 
 **What you need to know operationally:**
 
@@ -236,7 +236,7 @@ an infrastructure decision disguised as an architecture detail.
 **4. "Does Flash Attention change the output?"**
 
 No — it's mathematically equivalent, just computed in tiles that avoid writing the full
-score matrix to memory. It's a memory-bandwidth optimisation, and it's why long contexts
+score matrix to memory. It's a memory-bandwidth optimization, and it's why long contexts
 became practical.
 
 **5. "Your RAG answers got worse when you increased top-k from 5 to 20. Why?"**
@@ -255,7 +255,7 @@ thing. Plus you're paying more for it.
 - Multi-head splits the work rather than multiplying it.
 - **GQA vs. MHA changes KV cache size several-fold**, which decides your serving
   concurrency and therefore your GPU count.
-- Flash Attention is exact, not approximate — a memory optimisation.
+- Flash Attention is exact, not approximate — a memory optimization.
 - Models attend worse to the middle of long contexts, which is why fewer better chunks
   beats more chunks.
 

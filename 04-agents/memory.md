@@ -27,7 +27,7 @@ Ten steps, but you paid for 110,000 tokens, not 20,000. Double the steps and it'
 roughly four times the cost, not twice.
 
 This is why long agent runs get expensive fast, and why managing context isn't
-optimisation — it's the difference between a system that works and one that doesn't.
+optimization — it's the difference between a system that works and one that doesn't.
 
 ---
 
@@ -129,22 +129,22 @@ their order number twice, because the first one got compressed out.
 
 ## Short-term memory: across a conversation
 
-Multi-turn conversations grow the same way, just slower. Same fix: summarise older
+Multi-turn conversations grow the same way, just slower. Same fix: summarize older
 turns, keep recent ones.
 
 ```python
 class Conversation:
-    def __init__(self, keep_recent=6, summarise_every=4):
+    def __init__(self, keep_recent=6, summarize_every=4):
         self.messages = []
         self.summary = ""
         self.keep_recent = keep_recent
-        self.summarise_every = summarise_every
+        self.summarize_every = summarize_every
         self.turns_since_summary = 0
 
     def add(self, role, content):
         self.messages.append({"role": role, "content": content})
         self.turns_since_summary += 1
-        if (self.turns_since_summary >= self.summarise_every
+        if (self.turns_since_summary >= self.summarize_every
                 and len(self.messages) > self.keep_recent):
             self._compress()
 
@@ -163,7 +163,7 @@ New messages: {format(old)}
         self.turns_since_summary = 0
 ```
 
-### Test your summariser on the things it drops
+### Test your summarizer on the things it drops
 
 The failure isn't "the summary is bad prose." It's "the summary lost the order
 number." Those are very different, and only one of them makes users angry.
@@ -174,7 +174,7 @@ Write tests for exactly that:
 def test_summary_keeps_identifiers():
     convo = Conversation()
     convo.add("user", "My order ORD-88213 hasn't arrived")
-    for i in range(12):                       # push it past the summarise point
+    for i in range(12):                       # push it past the summarize point
         convo.add("assistant", f"reply {i}")
         convo.add("user", f"follow-up {i}")
 
@@ -194,7 +194,7 @@ def extract_ids(text):
     return set(IDENTIFIER.findall(text))
 ```
 
-Now the ID lives in a dict, not in prose, and no summariser can lose it.
+Now the ID lives in a dict, not in prose, and no summarizer can lose it.
 
 ---
 
@@ -323,7 +323,7 @@ Facts the user stated about themselves that will still be true in a month. Not m
 not one-off details, nothing sensitive. Mention that users should be able to see and
 delete it.
 
-**4. "How would you test a summariser?"**
+**4. "How would you test a summarizer?"**
 
 Not on prose quality — on what it keeps. Write cases where an ID, a number, or a
 ruled-out option appears early and must survive compression.
@@ -341,7 +341,7 @@ it as a security test rather than a correctness test.
 - Cost grows with the *square* of the steps, because you resend everything each time.
 - Set a token budget and split it. Adding to one part must take from another.
 - Keep facts in a structured object, not just in prose — prose gets compressed away.
-- Test summarisers on what they lose, not how they read.
+- Test summarizers on what they lose, not how they read.
 - Retrieve fresh each step; don't pile up old retrievals.
 - Memory crosses user boundaries. Key it, test it, let users delete it.
 

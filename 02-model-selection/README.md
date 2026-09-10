@@ -31,7 +31,7 @@ decision from scratch.
 
 **Input tokens drive cost. Output tokens drive latency.** Most requests send far more
 input than they produce output, so the bill is usually an input problem. Generation is
-sequential, so slowness is usually an output problem. Optimising the wrong one is the
+sequential, so slowness is usually an output problem. Optimizing the wrong one is the
 most common wasted week.
 
 **Do the arithmetic before the argument.** Self-hosting versus API is a calculation, not

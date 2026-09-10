@@ -194,7 +194,7 @@ strings against a self-hosted model, check.
 
 **1. "How do you count tokens?"**
 
-Use the model's real tokenizer for anything that decides behaviour; estimates are fine for
+Use the model's real tokenizer for anything that decides behavior; estimates are fine for
 chunk sizing. Then mention reserving output space, because that's the check people skip
 and it causes truncation-then-retry cost bugs.
 
@@ -228,7 +228,7 @@ for your actual prompts, not price per token.
   scripts.
 - Non-English users can cost 2–3× more tokens — and get less context under a global
   budget.
-- Use the real tokenizer for anything that decides behaviour.
+- Use the real tokenizer for anything that decides behavior.
 - Always reserve output space in your context budget, or you get truncate-then-retry.
 - Leading spaces matter: `" word"` ≠ `"word"`.
 - Identifiers fragment, which is why exact-match search needs keyword retrieval.

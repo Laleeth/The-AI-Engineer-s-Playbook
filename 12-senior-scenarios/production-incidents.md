@@ -61,7 +61,7 @@ output tokens (p50)      210       218     ~flat
 **What do you investigate next?**
 
 <details>
-<summary>💡 Reveal the reasoning</summary>
+<summary>💡 Reveal the reasoning path</summary>
 
 Three facts constrain the space hard:
 
@@ -119,7 +119,7 @@ latency on the internal admin endpoint
 Hypothesis confirmed. **What do you do in the next 10 minutes?**
 
 <details>
-<summary>✅ Reveal the response plan</summary>
+<summary>✅ Reveal a strong answer</summary>
 
 **Mitigate before you fix.** Revert the 13:45 prompt change. It is a one-field
 rollback with no schema or code dependencies, it restores a known-good state, and
@@ -157,7 +157,7 @@ Then, in order:
 > *"You revert it. Latency recovers to 3.4s — better, but not 1.8s. What now?"*
 
 <details>
-<summary>💡 Reveal</summary>
+<summary>💡 Reveal the reasoning path</summary>
 
 Partial recovery means **two independent causes**, or an effect that doesn't
 immediately reverse. Candidates who declare victory at "it's better" fail here.
@@ -195,7 +195,7 @@ before touching anything else."** Willingness to wait is a senior trait.
 > deploy. Design something that lets them keep that and doesn't cause outages."*
 
 <details>
-<summary>✅ Reveal</summary>
+<summary>✅ Reveal a strong answer</summary>
 
 The requirement is legitimate: prompt iteration speed is a real product advantage.
 Don't fight it — make it safe.
@@ -285,7 +285,7 @@ No code deploys. No prompt changes. No model version change in your config.
 **What is your leading hypothesis, and what metric confirms it?**
 
 <details>
-<summary>💡 Reveal</summary>
+<summary>💡 Reveal the reasoning path</summary>
 
 The on-call's hypothesis is possible but is now the *least* likely explanation:
 14,000 new documents entered the corpus four hours before the regression, and
@@ -332,7 +332,7 @@ mean top-1 similarity:       Fri 0.74  →  Sat 0.77   (slightly higher!)
 **Interpret this. What does the "slightly higher similarity" tell you?**
 
 <details>
-<summary>✅ Reveal</summary>
+<summary>✅ Reveal a strong answer</summary>
 
 **Generation is fine.** Groundedness is flat at ~0.91: given the context it
 receives, the model is still faithfully answering from it. The model is not
@@ -394,7 +394,7 @@ metadata filter, fully reversible.
 > Now what?"*
 
 <details>
-<summary>💡 Reveal</summary>
+<summary>💡 Reveal the reasoning path</summary>
 
 The requirement has genuinely changed: you now need a **single assistant serving
 two document universes with overlapping vocabulary and non-overlapping semantics.**
@@ -514,7 +514,7 @@ p95 latency               3.2s           3.4s       (flat)
 **What happened?**
 
 <details>
-<summary>💡 Reveal</summary>
+<summary>💡 Reveal the reasoning path</summary>
 
 Read the shape: **same documents, 3.4× the calls, each producing far fewer output
 tokens, with no errors.**
@@ -557,7 +557,7 @@ change log:  11:52  config: max_output_tokens 1024 → 128
 **Diagnose and respond.**
 
 <details>
-<summary>✅ Reveal</summary>
+<summary>✅ Reveal a strong answer</summary>
 
 Someone tried to reduce cost by capping output tokens at 128. The pipeline's
 extraction step needs ~600 output tokens. Every call now truncates (`finish_reason:
@@ -603,7 +603,7 @@ see what they'd done. That's a system failure.
 > system must stop spending. Design that. What are the failure modes?"*
 
 <details>
-<summary>💡 Reveal</summary>
+<summary>💡 Reveal the reasoning path</summary>
 
 Hard caps on a production system are a **reliability trade**: you're choosing to
 fail closed on budget rather than fail open on cost. Make that trade explicit and
@@ -712,7 +712,7 @@ retried by the job scheduler, hits the cap again, and repeats. By 07:00:
 **Where do you start, and what do you do first?**
 
 <details>
-<summary>💡 Reveal</summary>
+<summary>💡 Reveal the reasoning path</summary>
 
 **Stop the bleeding before you understand it.** This is an incident with ongoing
 external side effects — Slack spam, PRs, and collateral damage to another system
@@ -755,7 +755,7 @@ iteration 7:   tool: get_alerts(service="payments")  → 200 OK, 3 alerts
 **Diagnose.**
 
 <details>
-<summary>✅ Reveal</summary>
+<summary>✅ Reveal a strong answer</summary>
 
 **Proximate cause:** the agent has no memory that it already tried
 `get_runbook(A-8814)` and got a 404. Each iteration re-derives the same plan from a
@@ -807,7 +807,7 @@ from a write tool.
 > sessions.' Walk me through your defense."*
 
 <details>
-<summary>💡 Reveal</summary>
+<summary>💡 Reveal the reasoning path</summary>
 
 The key reframe: **ticket text is untrusted input, and it is being fed into a
 system with production credentials.** Prompt injection is not a model problem you
@@ -904,7 +904,7 @@ You are the incident commander. Go.
 ### Round 1 — First 15 minutes
 
 <details>
-<summary>💡 Reveal</summary>
+<summary>💡 Reveal the reasoning path</summary>
 
 **This is a data-breach incident, not a quality incident.** The response order is
 different from every other scenario in this file:
@@ -936,7 +936,7 @@ You have logs. Which of these would you check, in what order, and what does each
 imply?
 
 <details>
-<summary>✅ Reveal</summary>
+<summary>✅ Reveal a strong answer</summary>
 
 Enumerate systematically — cross-tenant leakage has a small number of possible
 mechanisms, and going in order is faster than guessing:
@@ -978,7 +978,7 @@ trace ID, which will usually identify the mechanism directly.
 > weeks. What now?"*
 
 <details>
-<summary>💡 Reveal</summary>
+<summary>💡 Reveal the reasoning path</summary>
 
 **Immediate:** disable the cache entirely (not "fix the key and redeploy" — disable
 first, fix under normal change control). Flush it. Verify from traces that no path
@@ -1082,7 +1082,7 @@ code, same eval suite.
 investigate.**
 
 <details>
-<summary>💡 Reveal</summary>
+<summary>💡 Reveal the reasoning path</summary>
 
 The list, roughly in order of how often each is the culprit in real systems:
 
@@ -1132,7 +1132,7 @@ graded prod sample:  new version worse on multi-turn (0.71 vs 0.79),
 **Diagnose and fix.**
 
 <details>
-<summary>✅ Reveal</summary>
+<summary>✅ Reveal a strong answer</summary>
 
 The change is genuinely better single-turn and worse multi-turn, and the eval suite
 is 100% single-turn — so it measured the half of reality where the change helps and
@@ -1176,7 +1176,7 @@ coreference behavior ("it", "that one") which only matters with history.
 > Do you ship it?"*
 
 <details>
-<summary>💡 Reveal</summary>
+<summary>💡 Reveal the reasoning path</summary>
 
 Yes, probably — but the interesting part is *why*, and what you do about the
 disagreement.
@@ -1257,7 +1257,7 @@ provider.
 ### Round 1 — The first ten minutes
 
 <details>
-<summary>💡 Reveal</summary>
+<summary>💡 Reveal the reasoning path</summary>
 
 **First: make sure your retries aren't making it worse.** With 95% failure and
 exponential backoff, your service is now generating several times its normal request
@@ -1289,7 +1289,7 @@ degradation**, and that's a skill worth demonstrating explicitly.
 > just switch to another provider."*
 
 <details>
-<summary>✅ Reveal</summary>
+<summary>✅ Reveal a strong answer</summary>
 
 The honest answer, and then the plan.
 
@@ -1336,7 +1336,7 @@ that, and here's what I recommend." Don't be defensive about it — quantify it.
 > nothing?"*
 
 <details>
-<summary>💡 Reveal</summary>
+<summary>💡 Reveal the reasoning path</summary>
 
 A **thundering herd**. Your queued asynchronous work, your clients' retry logic,
 your circuit breaker closing all at once, and every user who's been refreshing all

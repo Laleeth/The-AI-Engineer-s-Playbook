@@ -87,9 +87,9 @@ def ndcg_at_k(retrieved_ids, relevance_scores, k):
     return dcg / idcg if idcg > 0 else 0.0
 ```
 
-### The labelling problem, and how to shrink it
+### The labeling problem, and how to shrink it
 
-Labelling relevant documents for 500 questions is expensive. Two things make it
+Labeling relevant documents for 500 questions is expensive. Two things make it
 manageable:
 
 **Pool the candidates.** You don't need to look at every document in your corpus. Run
@@ -263,7 +263,7 @@ def diagnose(report):
 
 ### The corpus changes and your labels go stale
 
-You labelled `doc-123` as relevant. Someone rewrote it, or the chunking changed and
+You labeled `doc-123` as relevant. Someone rewrote it, or the chunking changed and
 `doc-123` is now three chunks with different IDs.
 
 Fix: version the corpus, store its version with the dataset, and re-check labels when
@@ -272,7 +272,7 @@ one the labels were made against.
 
 ### Several documents could answer the question
 
-Three different pages explain the refund policy. You labelled one. The system retrieves
+Three different pages explain the refund policy. You labeled one. The system retrieves
 another and scores as a miss, even though the answer was correct.
 
 Fix: label *all* acceptable documents, or score on whether the answer is right rather

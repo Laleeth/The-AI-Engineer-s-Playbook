@@ -357,7 +357,7 @@ measure a regression without a baseline from before it.
 agree with human judgement? Does it agree with what happens online? If you've never
 checked, you're trusting a number nobody validated.
 
-**Optimising against the same 400 examples for six months.** You end up with a system
+**Optimizing against the same 400 examples for six months.** You end up with a system
 that's excellent at those 400 examples. Keep a held-out set you don't tune against.
 
 ---

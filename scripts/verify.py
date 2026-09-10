@@ -1,12 +1,20 @@
 #!/usr/bin/env python3
-"""Verify the repository's code and links.
+"""Verify the repository's code, links, claims and self-description.
 
-Three checks:
+Four checks:
 
   1. Every ```python block parses as valid Python.
   2. Every internal markdown link points at a file that exists, and every
      anchor points at a heading that exists.
   3. Numeric claims made in the prose match what the code actually computes.
+  4. The README and ROADMAP describe the repository that actually exists —
+     section counts, file counts, word counts, scenario counts, and the list
+     of sections that are still unwritten.
+
+Check 4 exists because the first three didn't catch the failure that actually
+happened: the file counts, the "still to come" list and a worked example were
+all edited in one place and left stale in another. A repo that claims every
+number is checked has to check the numbers it makes about itself.
 
 Run:  python scripts/verify.py
 CI runs this on every push. If it fails, the README's "verified" badge is lying.
@@ -136,7 +144,7 @@ def check_claims() -> tuple[int, list[str]]:
           kv_bytes_per_token(32, 8, 128) * 128_000 / 1e9, 16, 0.05)
     # 80 GB GPU, 26 GB weights, 2,500-token contexts
     check("concurrent requests on an 80GB GPU",
-          (80 - 26) * 1e9 / (kv_bytes_per_token(32, 8, 128) * 2_500), 168, 0.02)
+          (80 - 26) * 1e9 / (kv_bytes_per_token(32, 8, 128) * 2_500), 165, 0.005)
 
     # --- 01-llm-internals/quantization.md ---
     def model_size_gb(params_billion, bits):
@@ -242,6 +250,130 @@ def check_claims() -> tuple[int, list[str]]:
     check("sample size 1 point", examples_needed(0.01), 14_000, 0.12)
     check("sample size 4 points (the ~880 claim)", examples_needed(0.04), 880, 0.10)
 
+    # --- 06-inference-serving/serving-stacks.md and gpu-economics.md ---
+    def cost_per_m_output(tokens_per_second, utilization=1.0, gpu_hourly=2.00):
+        return gpu_hourly / (tokens_per_second * utilization * 3600 / 1e6)
+
+    check("output cost at 2,000 tok/s", cost_per_m_output(2_000), 0.28, 0.02)
+    check("output cost at 400 tok/s", cost_per_m_output(400), 1.39, 0.01)
+    check("cost at 75% utilization", cost_per_m_output(2_000, 0.75), 0.37, 0.01)
+    check("cost at 45% utilization", cost_per_m_output(2_000, 0.45), 0.62, 0.01)
+    check("cost at 20% utilization", cost_per_m_output(2_000, 0.20), 1.39, 0.01)
+    # the "5x" claim in the section README is the ratio of those two extremes
+    check("serving efficiency swing",
+          cost_per_m_output(400) / cost_per_m_output(2_000), 5.0, 0.01)
+    check("vs API at $1.50 (full utilization)", 1.50 / cost_per_m_output(2_000), 5.4, 0.01)
+    check("vs API at $1.50 (45% utilization)",
+          1.50 / cost_per_m_output(2_000, 0.45), 2.4, 0.02)
+
+    # --- 06-inference-serving/continuous-batching.md ---
+    seconds_per_step = 26 / 3_000            # 26 GB of weights at ~3 TB/s
+    check("decode tokens/sec at batch 1", 1 / seconds_per_step, 115, 0.01)
+    check("decode tokens/sec at batch 32", 32 / seconds_per_step, 3_692, 0.01)
+
+    static_outputs = [30, 45, 60, 80, 120, 200, 400, 800]
+    static_utilization = sum(static_outputs) / (max(static_outputs) * len(static_outputs))
+    check("static batching utilization", static_utilization, 0.27, 0.02)
+    check("prefill stall for a 2k prompt (s)", 2_000 / 20_000, 0.1)
+
+    # --- 06-inference-serving/capacity-planning.md ---
+    check("fleet for 500 rps", 500 * 2_000 / 20_000 + 500 * 500 / 2_000, 175)
+    check("fleet monthly cost", 175 * 2.00 * 730, 255_500)
+
+    def provisioned(steady, peak_multiple=2.5, target_utilization=0.75, zones=3):
+        return steady * peak_multiple / target_utilization * zones / (zones - 1)
+
+    check("provisioned fleet with headroom", provisioned(175), 875, 0.01)
+
+    free_bytes = (80 - 26) * 1e9
+    check("kv tokens on one GPU", free_bytes / 131_072, 411_987, 0.001)
+    check("concurrent at 32k context", free_bytes / (131_072 * 32_000), 13, 0.02)
+
+    # --- 06-inference-serving/multi-gpu.md ---
+    check("70B at BF16 (GB)", model_size_gb(70, 16), 140)
+    check("70B at INT4 (GB)", model_size_gb(70, 4), 35)
+    kv_gb_64_seq = 64 * 2_500 * 131_072 / 1e9
+    check("kv cache for 64 sequences (GB)", kv_gb_64_seq, 21.0, 0.02)
+    check("70B INT4 plus its cache fits in 80GB",
+          model_size_gb(70, 4) + kv_gb_64_seq, 56.0, 0.02)
+
+    # --- 06-inference-serving/autoscaling.md ---
+    def cold_start(weights_gb, read_gb_per_s, node_provision_s=0,
+                   image_pull_s=45, warmup_s=20):
+        return node_provision_s + image_pull_s + weights_gb / read_gb_per_s + warmup_s
+
+    check("cold start, network filesystem (s)", cold_start(26, 1.0), 91, 0.01)
+    check("cold start, local NVMe (s)", cold_start(26, 8.0), 68, 0.01)
+    check("cold start, cold node (s)", cold_start(26, 1.0, 240), 331, 0.01)
+
+    # --- 06-inference-serving/gpu-economics.md ---
+    def diurnal_utilization(peak_hours, peak_multiple):
+        return (peak_hours * peak_multiple + (24 - peak_hours)) / (24 * peak_multiple)
+
+    check("diurnal utilization", diurnal_utilization(6, 2.5), 0.55, 0.02)
+    blended = (100 * 2.00 + 50 * 3.50 + 50 * 0.80) / 200
+    check("blended GPU rate", blended, 2.075, 0.01)
+    check("blended hourly spend", 100 * 2.00 + 50 * 3.50 + 50 * 0.80, 415)
+
+    # --- 09-data-pipelines/document-parsing.md ---
+    check("parsing upgrade for 200k documents", 200_000 * 12 * 0.015, 36_000)
+    check("chunks affected by a reparse", 200_000 * 20, 4_000_000)
+
+    # --- 09-data-pipelines/incremental-indexing.md ---
+    overnight_capacity = 45_000 * 10
+    check("overnight reindex capacity", overnight_capacity, 450_000)
+    check("change rate vs capacity", 2_000_000 / overnight_capacity, 4.4, 0.02)
+
+    # --- 09-data-pipelines/backfills.md ---
+    def backfill_days(items, per_second):
+        return items / per_second / 3600 / 24
+
+    check("900M chunks at 46/s (days)", backfill_days(900_000_000, 46), 227, 0.01)
+    check("900M chunks at 162/s (days)", backfill_days(900_000_000, 162), 64, 0.02)
+    # six weeks = 42 days — the rate the scenario actually requires
+    check("rate needed for 900M in six weeks",
+          900_000_000 / (42 * 24 * 3600), 248, 0.01)
+    # the scenario's reported rates, expressed per second
+    check("14M chunks/day in items/sec", 14_000_000 / 86_400, 162, 0.01)
+    check("4M chunks/day in items/sec", 4_000_000 / 86_400, 46, 0.02)
+
+    def embedding_cost(chunks, tokens_per_chunk=400, price_per_million=0.02):
+        return chunks * tokens_per_chunk / 1e6 * price_per_million
+
+    check("re-embed 50M chunks", embedding_cost(50_000_000), 400)
+    check("re-embed 900M chunks", embedding_cost(900_000_000), 7_200)
+
+    # --- 10-system-design-patterns/request-response-vs-async.md ---
+    budget = [round(60 * (0.9 ** i), 1) for i in range(4)]
+    check("innermost timeout of a 60s budget", budget[-1], 43.7, 0.01)
+
+    # --- 10-system-design-patterns/human-in-the-loop.md ---
+    def review_capacity(reviewers, minutes_per_item, hours_per_day=6):
+        return reviewers * (hours_per_day * 60 / minutes_per_item)
+
+    check("four reviewers at 3 min/item", review_capacity(4, 3), 480)
+    check("review share of 50k daily items", review_capacity(4, 3) / 50_000, 0.0096, 0.02)
+
+    # --- 10-system-design-patterns/batch-vs-realtime.md ---
+    def batch_vs_realtime(items, tokens_each, tokens_per_gpu_second=2_000):
+        gpu_seconds = items * tokens_each / tokens_per_gpu_second
+        return (gpu_seconds / 3600 * 2.00 / 0.45,      # real-time
+                gpu_seconds / 3600 * 0.80 / 0.90)      # batch
+
+    realtime_cost, batch_cost = batch_vs_realtime(10_000_000, 300)
+    check("real-time cost for 10M items", realtime_cost, 1_852, 0.01)
+    check("batch cost for 10M items", batch_cost, 370, 0.01)
+    check("batch is ~5x cheaper", realtime_cost / batch_cost, 5.0, 0.02)
+
+    def staleness(interval_hours, change_rate_per_day):
+        return min(1.0, change_rate_per_day * interval_hours / 24)
+
+    check("staleness at 2%/day, nightly", staleness(24, 0.02), 0.02)
+    check("staleness at 50%/day, nightly", staleness(24, 0.50), 0.50)
+
+    # --- 10-system-design-patterns/multi-region.md ---
+    check("network share of a 3.35s response", 150 / (150 + 200 + 3_000), 0.045, 0.02)
+
     # --- 05-evaluation: Wilson interval on the quoted example ---
     lo, hi = wilson([1.0] * 162 + [0.0] * 38)     # 0.81 on n=200
     check("wilson lower bound", lo, 0.75, 0.02)
@@ -252,6 +384,295 @@ def check_claims() -> tuple[int, list[str]]:
             failures.append(f"wilson interval escaped [0,1] for {label}: {lo}, {hi}")
 
     return 0, failures
+
+
+# ---------------------------------------------------------------------------
+# 4. The README describes the repo that exists
+# ---------------------------------------------------------------------------
+
+NUMBER_WORDS = {
+    1: "One", 2: "Two", 3: "Three", 4: "Four", 5: "Five", 6: "Six", 7: "Seven",
+    8: "Eight", 9: "Nine", 10: "Ten", 11: "Eleven", 12: "Twelve",
+    13: "Thirteen", 14: "Fourteen", 15: "Fifteen",
+}
+
+
+def section_dirs() -> list[pathlib.Path]:
+    return sorted(p for p in ROOT.iterdir() if p.is_dir() and p.name[:2].isdigit())
+
+
+def content_files(section: pathlib.Path) -> list[pathlib.Path]:
+    """Files a reader would count: everything but the section's own README."""
+    return sorted(p for p in section.glob("*.md") if p.name != "README.md")
+
+
+def word_count(section: pathlib.Path) -> int:
+    """Whitespace-separated tokens across every file in the section.
+
+    Including the section's own README, and including code blocks — the figure
+    is meant as a reading-length signal, not a prose count. Use this definition
+    when updating the table; `wc -w` disagrees slightly on multibyte punctuation.
+    """
+    return sum(len(p.read_text(encoding="utf-8").split()) for p in section.glob("*.md"))
+
+
+def check_self_description() -> list[str]:
+    failures: list[str] = []
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    roadmap = (ROOT / "ROADMAP.md").read_text(encoding="utf-8")
+
+    sections = section_dirs()
+    actual = {
+        s.name[:2]: (len(content_files(s)), word_count(s))
+        for s in sections
+    }
+
+    # --- the section table in the README ---
+    rows = re.findall(
+        r"\*\*\[(\d\d) · [^\]]+\]\((\S+?)/\)\*\*"
+        r".*?"
+        r'align="right" valign="top">(\d+)</td>'
+        r'<td align="right" valign="top">(\d+)k</td>',
+        readme,
+        re.DOTALL,
+    )
+    if len(rows) != len(sections):
+        failures.append(
+            f"README section table has {len(rows)} rows, repo has {len(sections)} sections"
+        )
+
+    for number, directory, files_claimed, words_claimed in rows:
+        if number not in actual:
+            failures.append(f"README lists section {number}, which is not in the repo")
+            continue
+        if not (ROOT / directory).is_dir():
+            failures.append(f"README section {number} points at missing dir {directory}/")
+        files_real, words_real = actual[number]
+        if int(files_claimed) != files_real:
+            failures.append(
+                f"README says section {number} has {files_claimed} files, it has {files_real}"
+            )
+        if round(words_real / 1000) != int(words_claimed):
+            failures.append(
+                f"README says section {number} is {words_claimed}k words, "
+                f"it is {words_real:,} ({round(words_real / 1000)}k)"
+            )
+
+    # --- the totals row ---
+    total = re.search(
+        r"<b>Total</b></td><td align=\"right\"><b>(\d+)</b></td>"
+        r"<td align=\"right\"><b>(\d+)k</b></td>",
+        readme,
+    )
+    files_real = sum(f for f, _ in actual.values())
+    words_real = sum(w for _, w in actual.values())
+    if not total:
+        failures.append("README has no totals row to check")
+    else:
+        if int(total.group(1)) != files_real:
+            failures.append(
+                f"README totals say {total.group(1)} files, repo has {files_real}"
+            )
+        if round(words_real / 1000) != int(total.group(2)):
+            failures.append(
+                f"README totals say {total.group(2)}k words, repo has "
+                f"{words_real:,} ({round(words_real / 1000)}k)"
+            )
+
+    # --- which sections are missing ---
+    # The numbering runs 00..N with deliberate gaps, so the gaps *are* the
+    # unwritten sections. Nothing here is hardcoded: add a directory and the
+    # counts below move on their own.
+    highest = max(int(n) for n in actual)
+    missing = {f"{n:02d}" for n in range(highest + 1)} - set(actual)
+
+    # --- the sections badge, and the prose that repeats it ---
+    # Two shapes: "13 written" once nothing is outstanding, and
+    # "11 written, 2 to go" while gaps remain.
+    badge = re.search(r"sections-(\d+)%20written(?:%2C%20(\d+)%20to%20go)?", readme)
+    if not badge:
+        failures.append(
+            "README has no readable sections badge (expected "
+            "'sections-<n>%20written' or 'sections-<n>%20written%2C%20<m>%20to%20go')"
+        )
+    else:
+        if int(badge.group(1)) != len(sections):
+            failures.append(
+                f"sections badge says {badge.group(1)} written, repo has {len(sections)}"
+            )
+        badge_remaining = int(badge.group(2)) if badge.group(2) else 0
+        if badge_remaining != len(missing):
+            failures.append(
+                f"sections badge says {badge_remaining} to go, "
+                f"the numbering has {len(missing)} gaps: {sorted(missing)}"
+            )
+
+    written_word = NUMBER_WORDS[len(sections)]
+    for name, text in (("README.md", readme), ("ROADMAP.md", roadmap)):
+        if not re.search(rf"{written_word} sections are written", text, re.I):
+            failures.append(
+                f'{name} does not say "{written_word} sections are written" — '
+                f"{len(sections)} are"
+            )
+        if missing:
+            missing_word = NUMBER_WORDS[len(missing)].lower()
+            if not re.search(rf"{missing_word} are not", text, re.I):
+                failures.append(
+                    f'{name} does not say "{missing_word} are not" — '
+                    f"{len(missing)} sections are unwritten"
+                )
+        elif not re.search(r"none are outstanding", text, re.I):
+            failures.append(
+                f'{name} does not say "none are outstanding" — every section is written'
+            )
+
+    readme_missing = set(re.findall(r"\| \*\*(\d\d)\*\* \|", readme))
+    if readme_missing != missing:
+        failures.append(
+            f"README's missing-sections table lists {sorted(readme_missing) or 'nothing'}, "
+            f"the gaps are {sorted(missing)}"
+        )
+
+    roadmap_planned = set(re.findall(r"\| (\d\d) \| [^|]+ \| — \| 🔜 Planned \|", roadmap))
+    if roadmap_planned != missing:
+        failures.append(
+            f"ROADMAP marks {sorted(roadmap_planned) or 'nothing'} as planned, "
+            f"the gaps are {sorted(missing)}"
+        )
+
+    roadmap_done = re.findall(r"\| (\d\d) \| \[[^\]]+\]\([^)]+\) \| (\d+) \| ✅ Done \|", roadmap)
+    for number, files_claimed in roadmap_done:
+        if number not in actual:
+            failures.append(f"ROADMAP marks section {number} done, it does not exist")
+        elif int(files_claimed) != actual[number][0]:
+            failures.append(
+                f"ROADMAP says section {number} has {files_claimed} files, "
+                f"it has {actual[number][0]}"
+            )
+    if len(roadmap_done) != len(sections):
+        failures.append(
+            f"ROADMAP marks {len(roadmap_done)} sections done, repo has {len(sections)}"
+        )
+    if len(roadmap_done) + len(roadmap_planned) != highest + 1:
+        failures.append(
+            f"ROADMAP's status table has {len(roadmap_done) + len(roadmap_planned)} rows "
+            f"for sections 00–{highest:02d} ({highest + 1} numbers)"
+        )
+
+    # --- scenario and problem counts ---
+    scenarios = {}
+    for md in content_files(ROOT / "12-senior-scenarios"):
+        scenarios[md.name] = len(
+            re.findall(r"^### Situation$", md.read_text(encoding="utf-8"), re.M)
+        )
+    problems = {}
+    for md in content_files(ROOT / "11-coding-rounds"):
+        problems[md.name] = len(
+            re.findall(r"^## (?:Problem )?\d+", md.read_text(encoding="utf-8"), re.M)
+        )
+
+    headline = re.search(r"\*\*(\d+) scenarios and coding problems\*\*", readme)
+    real_total = sum(scenarios.values()) + sum(problems.values())
+    if not headline:
+        failures.append("README no longer states a scenario count")
+    elif int(headline.group(1)) != real_total:
+        failures.append(
+            f"README claims {headline.group(1)} scenarios and coding problems, "
+            f"there are {real_total} ({sum(scenarios.values())} scenarios + "
+            f"{sum(problems.values())} coding problems)"
+        )
+
+    for folder, counts in (("12-senior-scenarios", scenarios), ("11-coding-rounds", problems)):
+        index = (ROOT / folder / "README.md").read_text(encoding="utf-8")
+        for name, claimed in re.findall(
+            r"\|\s*\[([\w.-]+\.md)\]\([^)]+\)\s*\|[^|\n]*\|\s*(\d+)", index
+        ):
+            if name in counts and int(claimed) != counts[name]:
+                failures.append(
+                    f"{folder}/README.md says {name} has {claimed}, it has {counts[name]}"
+                )
+
+    # --- the python-block count claimed inside a section ---
+    coding = (ROOT / "11-coding-rounds" / "README.md").read_text(encoding="utf-8")
+    # normalised so the claim can be line-wrapped without breaking the check
+    claim = re.search(
+        r"All (\d+) Python blocks in this section parse",
+        re.sub(r"\s+", " ", coding),
+    )
+    real_blocks = sum(
+        len(FENCE.findall(p.read_text(encoding="utf-8")))
+        for p in (ROOT / "11-coding-rounds").glob("*.md")
+    )
+    if not claim:
+        failures.append("11-coding-rounds/README.md no longer states a block count")
+    elif int(claim.group(1)) != real_blocks:
+        failures.append(
+            f"11-coding-rounds/README.md claims {claim.group(1)} python blocks, "
+            f"there are {real_blocks}"
+        )
+
+    # --- the paired-comparison example, wherever it is quoted ---
+    failures.extend(check_worked_example())
+
+    return failures
+
+
+BREAKDOWN = re.compile(
+    r"both correct\s+(\d+)\s*\n"
+    r"both wrong\s+(\d+)\s*\n"
+    r"B fixed it\s+(\d+)[^\n]*\n"
+    r"B broke it\s+(\d+)",
+)
+
+
+def check_worked_example() -> list[str]:
+    """The 0.79-vs-0.83 example is quoted in more than one file.
+
+    Every copy is re-derived from its own numbers here, because the failure this
+    catches already happened once: a breakdown was corrected in one file and
+    left stale in another, where it summed to 0.81 and 0.85 under prose that
+    said 0.79 and 0.83.
+    """
+    failures: list[str] = []
+    seen = 0
+
+    for md in markdown_files():
+        text = md.read_text(encoding="utf-8")
+        for both_right, both_wrong, fixed, broke in BREAKDOWN.findall(text):
+            seen += 1
+            rel = md.relative_to(ROOT)
+            both_right, both_wrong = int(both_right), int(both_wrong)
+            fixed, broke = int(fixed), int(broke)
+            n = both_right + both_wrong + fixed + broke
+
+            stated = [float(x) for x in re.findall(r"\b0\.\d\d\b", text)]
+            old = (both_right + broke) / n
+            new = (both_right + fixed) / n
+
+            if n != 200:
+                failures.append(f"{rel}: breakdown sums to {n}, the prose says 200 cases")
+            for label, value in (("A", old), ("B", new)):
+                if not any(abs(value - s) < 0.005 for s in stated):
+                    failures.append(
+                        f"{rel}: breakdown gives prompt {label} = {value:.2f}, "
+                        f"which appears nowhere in the prose (found {sorted(set(stated))})"
+                    )
+
+            p = mcnemar(new_fixed=fixed, new_broke=broke)
+            if p <= 0.05:
+                failures.append(
+                    f"{rel}: breakdown gives p={p:.3f} — the example only works "
+                    f"if the difference is NOT significant"
+                )
+            quoted_p = re.search(r"p ≈ (\d\.\d+)", text)
+            if quoted_p and abs(p - float(quoted_p.group(1))) > 0.05:
+                failures.append(
+                    f"{rel}: breakdown gives p={p:.2f}, prose says p ≈ {quoted_p.group(1)}"
+                )
+
+    if seen == 0:
+        failures.append("the paired-comparison worked example has disappeared from the docs")
+    return failures
 
 
 def mcnemar(new_fixed: int, new_broke: int) -> float:
@@ -311,6 +732,15 @@ def main() -> int:
             print(f"        {f}")
     else:
         print("PASS  numeric claims match the prose")
+
+    self_failures = check_self_description()
+    if self_failures:
+        ok = False
+        print(f"FAIL  repo self-description ({len(self_failures)})")
+        for f in self_failures:
+            print(f"        {f}")
+    else:
+        print("PASS  the README describes the repo that exists")
 
     print()
     if ok:

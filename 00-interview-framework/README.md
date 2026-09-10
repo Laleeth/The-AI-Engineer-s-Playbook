@@ -22,7 +22,7 @@ docs?" is not checking whether you know what RAG is. It's checking whether you a
 the data before designing, whether you know what breaks, and whether you mention how you'd
 know it worked.
 
-**Design and debugging reward opposite behaviours.** Design rewards breadth — cover the
+**Design and debugging reward opposite behaviors.** Design rewards breadth — cover the
 components, name the trade-offs. Debugging rewards *narrowing* — every question should
 eliminate possibilities. Breadth in a debugging question reads as flailing.
 

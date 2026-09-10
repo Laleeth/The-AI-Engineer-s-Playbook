@@ -4,7 +4,7 @@ Two ways to make a model work with your information.
 
 **RAG** — look things up and put them in the prompt. The model reads them and answers.
 
-**Fine-tuning** — train the model on your examples so the knowledge or behaviour lives
+**Fine-tuning** — train the model on your examples so the knowledge or behavior lives
 in its weights.
 
 They solve different problems, and the most common mistake is reaching for fine-tuning
@@ -32,7 +32,7 @@ that will fail as fine-tuning projects, for reasons below.
 This idea is intuitive and wrong, so it's worth being clear about why.
 
 **Facts don't stick reliably.** Training on a document doesn't reliably put its contents
-in the model's memory in a retrievable way. You'll get the flavour of your documents —
+in the model's memory in a retrievable way. You'll get the flavor of your documents —
 their style, their vocabulary — without dependable recall of specific facts.
 
 **You can't update it.** Your refund policy changes. With RAG you edit one document.
@@ -64,7 +64,7 @@ prompting keeps drifting. Fine-tuning nails formats.
 that's hard to describe but easy to demonstrate with examples.
 
 **A narrow, high-volume classification task.** This is the strongest case. If you're
-sorting millions of items into fixed categories and you have lots of labelled examples,
+sorting millions of items into fixed categories and you have lots of labeled examples,
 a fine-tuned small model will often beat a large general model at a fraction of the
 cost.
 
@@ -119,7 +119,7 @@ def answer(question):
 ```
 
 The fine-tuned model has learned how to read your documents and produce your format. The
-retrieval gives it today's facts. You get consistent behaviour *and* up-to-date
+retrieval gives it today's facts. You get consistent behavior *and* up-to-date
 information.
 
 This combination is underused because people frame it as a choice.
@@ -181,7 +181,7 @@ test  = [e for e in examples if e.date >= cutoff]
 
 Why it matters: real datasets contain near-duplicates — the same customer's repeated
 tickets, template-generated documents, similar messages from the same source. A random
-split puts near-identical examples on both sides, the model memorises them, and your
+split puts near-identical examples on both sides, the model memorizes them, and your
 test score is inflated.
 
 Split by time *and* by customer/source where you can.
@@ -199,7 +199,7 @@ def answer(request):
     return result
 ```
 
-Two benefits: you handle the unusual cases, and every fallback is a labelled hard
+Two benefits: you handle the unusual cases, and every fallback is a labeled hard
 example for the next training run. The system improves itself.
 
 ### Plan the retraining
@@ -264,7 +264,7 @@ fine-tuned model with no owner rots.
 - The permissions problem alone rules it out for most enterprise document sets.
 - The clearest fine-tuning signal: a long rule-heavy prompt at high volume.
 - Try prompting, schemas, retrieval, and decomposition first — days versus weeks.
-- Use both together: fine-tuned behaviour, retrieved facts.
+- Use both together: fine-tuned behavior, retrieved facts.
 - Split by time and source, never randomly.
 - Keep a general-model fallback, and turn its invocations into training data.
 - If nobody owns retraining, don't start.

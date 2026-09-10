@@ -84,7 +84,7 @@ def max_concurrent_requests(gpu_memory_gb, model_size_gb, avg_context_tokens,
 
 # 80 GB GPU, 26 GB of weights, 2,500-token average context
 max_concurrent_requests(80, 26, 2500, layers=32, kv_heads=8, head_dim=128)
-# ≈ 168 concurrent requests
+# ≈ 165 concurrent requests
 ```
 
 That number is your **batch size ceiling**. And batch size is what determines throughput,
@@ -114,14 +114,14 @@ When the cache fills, the serving stack has to do something. Usually it **preemp
 evicts a sequence and recomputes it later.
 
 This doesn't degrade gracefully. Throughput collapses non-linearly as the system spends
-its time recomputing rather than generating. You see latency spike while GPU utilisation
+its time recomputing rather than generating. You see latency spike while GPU utilization
 looks high.
 
 Prevent it rather than handling it:
 
 - Cap maximum context length at admission, not inside the model server
 - Cap concurrency below the theoretical maximum
-- Monitor cache utilisation and preemption rate as first-class metrics
+- Monitor cache utilization and preemption rate as first-class metrics
 
 ### Long sequences starve short ones
 
@@ -145,7 +145,7 @@ your first fix.
 
 ## Prefix caching
 
-The optimisation with the biggest cost impact for most applications.
+The optimization with the biggest cost impact for most applications.
 
 If many requests share a prefix — a system prompt, tool definitions, policy text — the K
 and V vectors for that prefix are identical every time. Compute them once, reuse them.
@@ -186,13 +186,13 @@ This is a real and recurring production failure:
 > prefix hash changes. Cache hit rate drops from 87% to 4%. Latency triples, cost triples.
 > No code was deployed, so nobody looks at deploys.
 
-Two defences:
+Two defenses:
 
 **Monitor cache hit rate as a first-class SLI**, and alert on a drop. It moves immediately
 and points straight at the cause, where a latency alert only tells you something is wrong.
 
 **Treat prompt edits as deploys** — review, canary, rollback. A UI that lets someone change
-production behaviour with no gate is the actual root cause; the cache is just the
+production behavior with no gate is the actual root cause; the cache is just the
 mechanism.
 
 ---
@@ -255,10 +255,10 @@ tokens."**
 `2 × 4000 × 32 × 8 × 128 × 2 bytes` = 512 MB. Be willing to do it out loud; the
 willingness matters more than the precision.
 
-**3. "Your throughput collapsed but GPU utilisation is high. What's happening?"**
+**3. "Your throughput collapsed but GPU utilization is high. What's happening?"**
 
 Likely KV cache exhaustion causing preemption — the GPU is busy recomputing evicted
-sequences rather than generating. Check cache utilisation and preemption rate. Fix by
+sequences rather than generating. Check cache utilization and preemption rate. Fix by
 capping context length and concurrency at admission.
 
 **4. "How do you double your serving capacity without buying GPUs?"**

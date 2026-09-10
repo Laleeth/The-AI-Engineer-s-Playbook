@@ -40,8 +40,9 @@ provider — which is also how you should design it.
 
 ## The code is tested
 
-The reference implementations aren't illustrative pseudocode. All 41 Python blocks parse,
-and the core implementations were executed against their stated claims:
+The reference implementations aren't illustrative pseudocode. All 42 Python blocks in
+this section parse, and the core implementations were executed against their stated
+claims:
 
 - the async worker pool holds its concurrency limit, reports permanent failures instead
   of raising, and leaks no tasks when the caller uses `aclosing`
@@ -50,7 +51,7 @@ and the core implementations were executed against their stated claims:
 - filtered vector search returns `k` results, not `k` minus the filtered ones
 - BM25 ranks an exact identifier (`E-4471`) first, which is the whole reason hybrid
   retrieval exists
-- the retry decorator does not retry 400s or `TypeError`, honours `Retry-After` over its
+- the retry decorator does not retry 400s or `TypeError`, honors `Retry-After` over its
   own backoff, and respects the deadline rather than the attempt count
 - the rate limiter's reserve-and-refund returns unused output-token capacity
 - the agent's controls reduce the runaway-loop incident from 312 side effects to 1
@@ -61,7 +62,7 @@ and the core implementations were executed against their stated claims:
 If you change a reference implementation, re-run it. A harness that reports confident
 wrong numbers is worse than none.
 
-## How to practise
+## How to practice
 
 1. Read the **Scenario**, **Requirements**, and **Starter Code**. Close the file.
 2. Implement it. Give yourself 45 minutes — that's the real constraint.

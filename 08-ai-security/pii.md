@@ -50,7 +50,7 @@ over-restricting the first or under-protecting the second.
 
 ---
 
-## Minimise before you protect
+## Minimize before you protect
 
 The cheapest way to secure data is not to have it. Before building controls, ask what you
 actually need.
@@ -68,7 +68,7 @@ def build_context(user_query, customer):
 ```
 
 Every field you don't put in the prompt is a field that can't leak through the response, the
-cache, or the logs. Minimisation is a security control, not just a compliance nicety.
+cache, or the logs. Minimization is a security control, not just a compliance nicety.
 
 ---
 
@@ -101,7 +101,7 @@ doesn't need to be to do its job.
 - **Redaction can break the task.** If a support agent needs the order number to look up the
   order, redacting it makes the system useless. Redact in logs, keep it in the working
   context.
-- **Reversible redaction is a liability.** If you tokenise "email → TOKEN_123" so you can
+- **Reversible redaction is a liability.** If you tokenize "email → TOKEN_123" so you can
   restore it, that mapping is itself sensitive data with the same protection requirements.
 
 Redaction is a useful layer, not a complete solution. Don't let "we redact PII" stand in
@@ -228,7 +228,7 @@ there's a clear reason and consent.
 
 **1. "How do you handle PII in an LLM system?"**
 
-Minimise first — only put in the prompt what the task needs. Redact in logs and training
+Minimize first — only put in the prompt what the task needs. Redact in logs and training
 data. Tag by category so obligations match sensitivity. Then note that embeddings are
 derived personal data and vector indexes aren't exempt.
 
@@ -267,7 +267,7 @@ cross-user isolation as a security test.
 
 - The goal isn't zero PII — it's knowing where it is and being able to control it.
 - This is legal as much as engineering. Where it says "ask legal," ask legal.
-- Minimise first: fields not in the prompt can't leak.
+- Minimize first: fields not in the prompt can't leak.
 - Embeddings are derived personal data. Vector indexes aren't exempt.
 - Tag data by category; obligations differ enormously across them.
 - Redaction helps in logs and training data; it's a layer, not a solution.

@@ -115,7 +115,7 @@ A rise means something upstream broke — usually retrieval. Users don't report 
 just leave. It's one of the cheapest early-warning signals available and almost nobody
 tracks it.
 
-### 7. Quality proxies from user behaviour
+### 7. Quality proxies from user behavior
 
 You can't grade every production response, but users tell you things:
 
@@ -189,7 +189,7 @@ This is what makes any of it attributable.
 @dataclass
 class RequestContext:
     trace_id: str
-    # what produced this behaviour
+    # what produced this behavior
     model: str
     model_version: str
     prompt_version: str

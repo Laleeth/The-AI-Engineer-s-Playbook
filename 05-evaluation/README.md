@@ -73,10 +73,12 @@ Prompt A scores 0.79. Prompt B scores 0.83. Both on the same 200 cases. Ship B?
 Break it down:
 
 ```
-both correct     148
-both wrong        16
+both correct     144
+both wrong        20
 B fixed it        22    ← only these
 B broke it        14    ← and these carry information
+                 ───
+                 200
 ```
 
 Only 36 cases disagree. McNemar's test gives **p ≈ 0.24**. Not significant. You'd need
@@ -86,7 +88,8 @@ The useful answer isn't "we can't tell" — it's *"this is within noise; I can e
 eval set, or we ship behind a canary and measure online."* Statistical honesty is only
 valuable when it comes with a path forward.
 
-(This example is verified — see the
+(Every number here is re-computed by CI — the breakdown, the p-value and the sample
+size. See [`scripts/verify.py`](../scripts/verify.py) and the
 [coding rounds README](../11-coding-rounds/README.md#the-code-is-tested).)
 
 ## Related

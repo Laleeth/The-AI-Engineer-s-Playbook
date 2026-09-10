@@ -50,7 +50,7 @@ Every 429 costs you:
 
 - A request against your request-per-minute quota (yes, rejections count)
 - A full network round trip of latency
-- A retry, which may synchronise with every other client's retry
+- A retry, which may synchronize with every other client's retry
 - Nothing gained
 
 **Client-side admission control costs microseconds and gives you control over *which*
@@ -72,7 +72,7 @@ until it does.
 The asymmetry decides the design:
 
 - **Under-estimating** → 429s → wasted quota, latency, retry amplification. Expensive.
-- **Over-estimating** → under-utilisation. Cheap, and mostly recoverable.
+- **Over-estimating** → under-utilization. Cheap, and mostly recoverable.
 
 So: **reserve pessimistically, refund quickly.**
 
@@ -84,7 +84,7 @@ lease.settle(response.input_tokens, response.output_tokens)   # refunds ~900
 ```
 
 Without refunds, reserving 1,024 output tokens when you typically use 180 caps you at
-roughly a fifth of your real quota. With them, you get safety and utilisation.
+roughly a fifth of your real quota. With them, you get safety and utilization.
 
 Calibrate the estimate from observed output lengths — use a high percentile like p90, not
 the mean, because of that same asymmetry.
@@ -173,7 +173,7 @@ the shared portion, and — critically — a local fallback if Redis is unavaila
 ```python
 async def acquire(self, est_in, est_out):
     if not self._redis_healthy:
-        # Degrade to a conservative local share. Under-utilise, but stay up.
+        # Degrade to a conservative local share. Under-utilize, but stay up.
         return await self._local_fallback.acquire(est_in, est_out)
     ...
 ```
@@ -291,7 +291,7 @@ limit.
 
 Reserve pessimistically at `max_tokens`, then refund the difference on settlement. The
 asymmetry justifies it: under-estimating causes 429s, over-estimating just costs
-utilisation, and refunds recover most of that.
+utilization, and refunds recover most of that.
 
 **4. "A customer needs 400,000 documents processed and you're near your limit."**
 
@@ -306,7 +306,7 @@ A per-process limiter isn't a limit. Options: static split (wasteful), central c
 Whatever you pick, the limiter must not take down the service when its coordination layer
 fails.
 
-**6. "You're at 40% utilisation and still getting 429s."**
+**6. "You're at 40% utilization and still getting 429s."**
 
 Several possibilities: you're measuring the wrong limit; your token estimates are low;
 another team shares the account; the effective limit is below the documented one; or your

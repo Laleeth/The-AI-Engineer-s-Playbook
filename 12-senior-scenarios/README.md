@@ -38,7 +38,7 @@ Many scenarios **evolve in rounds**: you design the system, then traffic grows 1
 costs triple, then security changes the requirements, then accuracy drops. That's how
 these interviews actually run.
 
-## How to practise
+## How to practice
 
 1. Read only **Situation**, **Your Task**, and **Constraints**. Close the file.
 2. Spend 10–15 minutes writing your approach — *including the numbers you'd ask for*.

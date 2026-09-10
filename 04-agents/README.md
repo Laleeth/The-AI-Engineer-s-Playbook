@@ -26,7 +26,7 @@ If you're new to this, go in file order. The first file decides whether you need
 the rest.
 
 If you're debugging something now, jump to
-[agent-failure-modes.md](agent-failure-modes.md) — it's organised by symptom.
+[agent-failure-modes.md](agent-failure-modes.md) — it's organized by symptom.
 
 If you're about to give an agent write access to something real, read
 [permissions.md](permissions.md) first. It's the file with the highest cost of getting

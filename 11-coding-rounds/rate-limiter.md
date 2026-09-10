@@ -298,7 +298,7 @@ class RateLimiter:
                 async with self._lock:
                     if waiter in self._waiters:
                         self._waiters.remove(waiter)
-                    # A cancelled waiter may have been holding up the queue;
+                    # A canceled waiter may have been holding up the queue;
                     # give the next one a chance immediately.
                     self._try_grant_head(time.monotonic())
                 raise
@@ -494,7 +494,7 @@ improve throughput and starve large requests forever — a 30,000-token request 
 run while 500-token requests keep arriving. Fairness is worth the throughput cost here,
 and the choice should be stated explicitly rather than made by accident.
 
-**Cancellation removes the waiter and re-runs the grant loop.** A cancelled waiter at the
+**Cancellation removes the waiter and re-runs the grant loop.** A canceled waiter at the
 head of the queue would otherwise block everyone behind it until the next scheduled wake.
 
 **The safety margin exists because the estimate is wrong and the clocks differ.** Your
@@ -551,7 +551,7 @@ what an interviewer is listening for.
 | Request larger than the per-minute limit | Fails fast with a clear message; waiting cannot help |
 | Caller never settles the lease | Capacity leaks; mitigate with a settlement timeout sweeper |
 | Actual tokens exceed the estimate | Bucket goes negative; later requests wait longer — correct |
-| All waiters cancelled | Grant loop re-runs, no wedged queue |
+| All waiters canceled | Grant loop re-runs, no wedged queue |
 | `requests_per_min=0` | `seconds_until` returns infinity; admission never happens (arguably should raise at construction) |
 | Clock skew / NTP adjustment | `time.monotonic()` is immune |
 | Burst after an idle period | Bucket is full, so a full burst is admitted — this is intended token-bucket behavior |
@@ -633,7 +633,7 @@ work doesn't block their own interactive work.
 </details>
 
 <details>
-<summary>✅ Reveal the implementation</summary>
+<summary>✅ Reveal the reference implementation</summary>
 
 ```python
 """Weighted fair queueing across tenants, with priority classes within a tenant."""
@@ -754,7 +754,7 @@ class FairRateLimiter(RateLimiter):
         """
         while self._queue:
             head = self._queue[0]
-            if head.event.is_set():                  # cancelled
+            if head.event.is_set():                  # canceled
                 heapq.heappop(self._queue)
                 continue
             if not (self.requests.can_take(1, now)
@@ -855,7 +855,7 @@ than failing requests.
 </details>
 
 <details>
-<summary>✅ Reveal the implementation</summary>
+<summary>✅ Reveal the reference implementation</summary>
 
 ```python
 """Distributed token bucket in Redis, with a local fallback.
@@ -1083,7 +1083,7 @@ Refinements worth mentioning:
 </details>
 
 <details>
-<summary>✅ Reveal the implementation</summary>
+<summary>✅ Reveal the reference implementation</summary>
 
 ```python
 """AIMD congestion control for an unknown, drifting rate limit."""

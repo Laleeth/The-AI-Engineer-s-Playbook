@@ -227,7 +227,7 @@ You either re-trip the provider's rate limits or overwhelm yourself. **Many inci
 two outages: the original and the recovery.**
 
 Ramp: half-open with small probe volume, drain queued work at a controlled rate,
-prioritise interactive over batch, and jitter everything.
+prioritize interactive over batch, and jitter everything.
 
 ---
 
@@ -287,7 +287,7 @@ Fix: retry at one layer, use retry budgets, add circuit breakers.
 
 **3. "How do you handle 429 versus 503?"**
 
-503 means back off and hope. 429 means you specifically exceeded a limit — honour
+503 means back off and hope. 429 means you specifically exceeded a limit — honor
 `Retry-After`, and treat regular 429s as a sign you need client-side rate limiting rather
 than more retries.
 
@@ -315,7 +315,7 @@ recovery with half-open probing, controlled queue drain, and jitter.
 - Retries amplify load exactly when a system can least handle it.
 - Retry an allowlist, never everything-except-a-denylist.
 - Bound by a deadline, not an attempt count.
-- Full jitter, or your retries synchronise into waves.
+- Full jitter, or your retries synchronize into waves.
 - Retry at one layer. Audit what else is retrying, especially the provider SDK.
 - Non-idempotent operations need an idempotency key, or don't retry them.
 - Circuit breaker wraps the retry loop, not the reverse.

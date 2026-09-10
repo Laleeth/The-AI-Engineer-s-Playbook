@@ -82,7 +82,7 @@ Use an agent when you genuinely **cannot** know the steps ahead of time.
 - The task has the same shape every time.
 - You can list the steps.
 - The order rarely changes.
-- You need it to be predictable — same input, roughly same behaviour.
+- You need it to be predictable — same input, roughly same behavior.
 - It has to be fast (a workflow with 3 calls beats an agent with 12).
 - It has to be cheap.
 - You need to explain to someone exactly what it does.
@@ -168,7 +168,7 @@ reasonable given that."
 
 ### Cost in predictability
 
-Same input, different behaviour. Sometimes fine, sometimes a support ticket. If
+Same input, different behavior. Sometimes fine, sometimes a support ticket. If
 someone asks "what will this do?", the honest answer for an agent is "probably
 roughly this."
 
@@ -274,7 +274,7 @@ Before you build an agent, build the dumb workflow version. Measure it. Often it
 | Who picks the steps | You | The model |
 | Cost | Low, predictable | Higher, varies a lot |
 | Speed | Fast | Slow (steps are sequential) |
-| Same input → same behaviour | Mostly yes | Often no |
+| Same input → same behavior | Mostly yes | Often no |
 | Debugging | Easy — check each step | Hard — read the whole transcript |
 | Handles surprises | No | Yes |
 | Good for | Known tasks | Open-ended investigation |

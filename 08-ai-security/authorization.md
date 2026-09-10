@@ -233,7 +233,7 @@ that user has. If a user couldn't issue a refund by clicking a button in your UI
 must not be able to do it on their behalf. This is the delegation rule, and it's the one
 that stops "the assistant did it" becoming a privilege-escalation path.
 
-Check at call time too, because defence in depth is cheap here:
+Check at call time too, because defense in depth is cheap here:
 
 ```python
 def execute(tool, args, principal):
@@ -364,7 +364,7 @@ horizontal privilege escalation, and the fix is in the signature.
 
 Both places, but the load-bearing one is toolset construction: derive the available tools
 from the principal so the model never sees a tool it can't use. Check again at call time as
-defence in depth. And the agent must never have more authority than the user it acts for.
+defense in depth. And the agent must never have more authority than the user it acts for.
 
 **6. "A retrieved document says the user is an administrator. What happens?"**
 

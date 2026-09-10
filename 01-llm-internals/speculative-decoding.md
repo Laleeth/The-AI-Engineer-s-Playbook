@@ -5,7 +5,7 @@ output.
 
 That last part is the important bit: done correctly, speculative decoding produces
 **exactly the same text** the model would have produced anyway. It's a pure latency
-optimisation, not a quality trade-off.
+optimization, not a quality trade-off.
 
 ---
 
@@ -77,7 +77,7 @@ token *after* them, so you get k+1 tokens from one pass.
 
 ## Why the output is identical
 
-This is what makes speculative decoding unusual among optimisations, and it's the thing to
+This is what makes speculative decoding unusual among optimizations, and it's the thing to
 be able to explain.
 
 With greedy decoding it's obvious: accept a draft token only if it's the one the target
@@ -182,7 +182,7 @@ No second model to serve, but the drafts are usually weaker.
 
 **N-gram / prompt lookup.** No model at all — look for the current context in the prompt or
 recent output and propose the continuation that followed last time. Free, and works
-remarkably well when there's a lot of repetition: summarisation, editing, code completion,
+remarkably well when there's a lot of repetition: summarization, editing, code completion,
 anything that copies from the input.
 
 ```python
@@ -214,15 +214,15 @@ several future tokens at once. Needs training the heads, but avoids serving a se
 
 **Not worth it:**
 - **High batch sizes.** This is the important caveat. With a large batch, the GPU is
-  already busy — the memory read is amortised across many sequences and the arithmetic
+  already busy — the memory read is amortized across many sequences and the arithmetic
   units are no longer idle. Speculation adds work without filling spare capacity, and can
   make throughput *worse*.
 - Low acceptance rate — the draft cost dominates
 - Throughput-oriented batch jobs, where total tokens per second matters more than
   per-request latency
 
-That first point is the trade-off to understand: **speculative decoding optimises latency
-at low batch sizes, and continuous batching optimises throughput at high batch sizes.**
+That first point is the trade-off to understand: **speculative decoding optimizes latency
+at low batch sizes, and continuous batching optimizes throughput at high batch sizes.**
 They pull against each other.
 
 Some serving stacks handle this by enabling speculation adaptively — on when the batch is
@@ -243,7 +243,7 @@ SPEC_DECODE_METRICS = [
     "acceptance_rate",           # the number that decides everything
     "avg_accepted_per_round",    # should be close to k when working well
     "tokens_per_second",         # versus the non-speculative baseline
-    "time_to_first_token",       # should be unchanged — this is a decode optimisation
+    "time_to_first_token",       # should be unchanged — this is a decode optimization
     "batch_size",                # to check speculation is on when it should be
     "draft_model_overhead_ms",
 ]
@@ -282,7 +282,7 @@ so you get the extras nearly free.
 
 **3. "When does it not help?"**
 
-At high batch sizes, where the GPU is already busy and the memory read is amortised across
+At high batch sizes, where the GPU is already busy and the memory read is amortized across
 sequences — speculation then adds work without filling idle capacity and can hurt
 throughput. Also with low acceptance rates, where draft cost dominates.
 
@@ -295,7 +295,7 @@ disappear.
 **5. "How would you get speculation without serving a second model?"**
 
 N-gram or prompt-lookup drafting — propose continuations found in the prompt or recent
-output. Free, and very effective for summarisation, editing, and RAG answers that quote
+output. Free, and very effective for summarization, editing, and RAG answers that quote
 retrieved text. Or self-speculation using the model's own early layers.
 
 **6. "Does it change the output?"**
@@ -309,7 +309,7 @@ target exactly. Worth having a test that asserts this.
 ## What to remember
 
 - Small model drafts, big model verifies in one pass, accept the correct prefix.
-- **Output is identical** — it's a latency optimisation, not a quality trade-off.
+- **Output is identical** — it's a latency optimization, not a quality trade-off.
 - It works because decode is memory-bandwidth-bound, so extra tokens ride along nearly
   free.
 - Acceptance rate decides the speedup. Below ~50% the gains mostly vanish.

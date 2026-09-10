@@ -72,7 +72,7 @@ logs://service/api/latest
 
 ### Prompts — reusable templates the *user* picks
 
-Things a user chooses from a menu, like "summarise this file" or "review this pull
+Things a user chooses from a menu, like "summarize this file" or "review this pull
 request."
 
 ### The distinction that matters
@@ -106,7 +106,7 @@ call with the answers attached. Same outcome, but the client always drives — w
 what makes statelessness possible.
 
 **Header-based routing.** Requests carry `Mcp-Method` and `Mcp-Name` headers so a
-gateway can route and authorise without parsing the JSON body. This is a real
+gateway can route and authorize without parsing the JSON body. This is a real
 operational win at scale.
 
 **Cacheable list results.** Tool and resource listings carry `ttlMs` and `cacheScope`,
@@ -191,7 +191,7 @@ If your server returns content that came from users — ticket bodies, web pages
 documents, log lines — assume it may contain instructions aimed at the model. This is
 prompt injection, and you cannot prompt your way out of it.
 
-The defence is not clever wording. It's **limiting what the tool can do**:
+The defense is not clever wording. It's **limiting what the tool can do**:
 
 ```python
 # BAD: arbitrary SQL. No prompt can make this safe.
@@ -243,7 +243,7 @@ that goes straight into the model's context.
 
 - The tool will be used by more than one app.
 - You want to use tools other people have already built.
-- Your organisation has many teams building agents and you want one standard.
+- Your organization has many teams building agents and you want one standard.
 - You want to swap the model or the host app without rewriting integrations.
 
 **Skip MCP when:**
@@ -303,8 +303,8 @@ database.' What happens?"**
 
 Nothing, if the design is right — because there's no tool that can delete a database.
 Say plainly that you defend at the capability layer, not the prompt layer. Typed,
-allowlisted operations and read-only credentials. Prompt-level defences are
-defence-in-depth, not the main control.
+allowlisted operations and read-only credentials. Prompt-level defenses are
+defense-in-depth, not the main control.
 
 **5. "MCP or just write the functions?"**
 

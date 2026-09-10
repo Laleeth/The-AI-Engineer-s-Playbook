@@ -104,7 +104,7 @@ def route(request, user):
     return large_model(request)
 ```
 
-The hard rules matter because **optimising cost on an account-security question or a
+The hard rules matter because **optimizing cost on an account-security question or a
 legal threat is a business risk, not an engineering trade-off.** Use deterministic rules
 where the stakes are high and statistics where they're not.
 

@@ -54,7 +54,7 @@ Then say why you're asking. This is the part that converts a question into a sig
 
 > "I'm asking about identifiers because if people search by product code, dense retrieval
 > alone will fail — embeddings put E-4471 and E-4472 in almost the same place. That's a
-> hybrid-search requirement rather than an optimisation."
+> hybrid-search requirement rather than an optimization."
 
 Now the interviewer knows you're not asking from a checklist.
 
@@ -189,7 +189,7 @@ Close by saying what you'd build first, and what you'd leave out.
 > The one thing I'd get right up front is the embedding model choice and the ability to
 > hold two indexes at once, because that's the decision that's expensive to reverse."
 
-Three signals in one minute: prioritisation, willingness to defer, and knowing which
+Three signals in one minute: prioritization, willingness to defer, and knowing which
 decisions are irreversible.
 
 ---
@@ -233,7 +233,7 @@ Structure of a good response to a curveball:
 | Nothing about measurement | Get it in before you finish |
 | Finished at 20 minutes | Volunteer failure modes and sequencing |
 
-If you're running out of time, prioritise: **failure modes and measurement over more
+If you're running out of time, prioritize: **failure modes and measurement over more
 architecture.** Two more components is worth less than one good failure mode.
 
 ---
@@ -256,7 +256,7 @@ Not tricks — they're compressed versions of the reasoning.
 
 > "The thing that would break first is…"
 
-That last-but-one is worth practising. Updating in response to new information reads as
+That last-but-one is worth practicing. Updating in response to new information reads as
 strength; defending your first idea against evidence reads as the opposite.
 
 ---

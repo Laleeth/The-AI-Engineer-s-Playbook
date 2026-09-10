@@ -109,12 +109,12 @@ Everything above, plus a different frame:
 > it's the difference between a bug and a data breach.
 >
 > On sequencing: I'd want the evaluation set to be something other teams can reuse, and
-> I'd write down what we're *not* standardising so nobody thinks this is a platform
+> I'd write down what we're *not* standardizing so nobody thinks this is a platform
 > mandate. Otherwise every team builds their own and in eighteen months we have eight of
 > these with different embedding models and nobody can say what any of them cost."
 
 **What changed again.** Thinks past this project. Identifies which decisions are
-irreversible. Anticipates organisational consequences. Considers reuse without
+irreversible. Anticipates organizational consequences. Considers reuse without
 overreaching into a platform mandate.
 
 ---
@@ -177,7 +177,7 @@ everything. The fix is structural.
 | Staff | All of the above, plus: which decisions are irreversible, who else is affected, and what you'd refuse |
 
 **A trap worth knowing:** answering above your level can hurt too. If you're interviewing
-for mid and you spend the whole time on organisational strategy without demonstrating you
+for mid and you spend the whole time on organizational strategy without demonstrating you
 can build the thing, that reads as avoidance. Show you can do the work, *then* show the
 judgement.
 
@@ -225,7 +225,7 @@ these. That gap is usually what's holding the level back — not knowledge.
 
 - Junior knows the components. Mid knows why they're there.
 - Senior lets the situation pick the design — which means asking first.
-- Staff asks whether it's the right problem, and what it costs the organisation.
+- Staff asks whether it's the right problem, and what it costs the organization.
 - Arithmetic, failure modes, and measurement are the three habits that read as senior.
 - Saying what you'd skip is one of the fastest level signals available.
 - More technique names won't move you up. Knowing when not to use them will.

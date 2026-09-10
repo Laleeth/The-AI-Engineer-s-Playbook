@@ -1,6 +1,6 @@
 # How Agents Break
 
-Agents fail in a small number of recognisable ways. Once you've seen each one, you spot
+Agents fail in a small number of recognizable ways. Once you've seen each one, you spot
 it fast. This file is that list, with what causes each and what to do about it.
 
 Most of these have the same underlying shape: **something unbounded**. Unbounded steps,
@@ -271,7 +271,7 @@ was empty and it treated that as final.
 Neither happened.
 
 **Why:** it drafted the text of both and treated writing them as doing them. Or a tool
-failed and it summarised optimistically.
+failed and it summarized optimistically.
 
 **The fix: check the world, not the transcript.**
 
@@ -366,7 +366,7 @@ class Limits:
     # Fires eventually
     max_cost_usd: float = 1.00
     max_wall_seconds: float = 300.0
-    max_steps: int = 15                   # the LAST line of defence
+    max_steps: int = 15                   # the LAST line of defense
 ```
 
 ---

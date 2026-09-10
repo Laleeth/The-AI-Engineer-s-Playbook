@@ -67,7 +67,7 @@ to keep the existing system running the entire time.
 ### How Would You Approach It?
 
 <details>
-<summary>💡 Reveal the reasoning path (try it yourself first)</summary>
+<summary>💡 Reveal the reasoning path</summary>
 
 **Step 1 — Refuse to redesign anything until you have a latency and cost budget
 broken down by component.** "5 seconds p95" is not actionable. You need the

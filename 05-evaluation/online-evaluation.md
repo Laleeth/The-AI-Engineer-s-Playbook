@@ -167,7 +167,7 @@ Split traffic, compare. The standard tool, with real caveats for AI features.
 ```python
 def assign(user_id, experiment):
     """Stable assignment — the same user always gets the same version.
-    Randomising per request makes multi-turn conversations incoherent."""
+    Randomizing per request makes multi-turn conversations incoherent."""
     h = hashlib.sha256(f"{experiment}:{user_id}".encode()).hexdigest()
     return "treatment" if int(h[:8], 16) % 100 < 50 else "control"
 ```
@@ -202,12 +202,12 @@ enough to wait for.
 positive rate badly. Decide the sample size up front, or use a method designed for
 continuous monitoring.
 
-**Novelty effects.** Users react to *change*, not just quality. A new behaviour gets
+**Novelty effects.** Users react to *change*, not just quality. A new behavior gets
 more engagement for a week regardless of whether it's better. Run long enough to see it
 settle.
 
 **Contamination.** Support agents talk to each other. If half your agents get the new
-version, they discuss it, and the control group's behaviour changes too.
+version, they discuss it, and the control group's behavior changes too.
 
 **Measuring the wrong thing.** Engagement goes up 6%. Good? Could mean more useful, or
 more verbose, or *worse* — users having to ask follow-ups. Engagement without a
@@ -257,9 +257,9 @@ They will. Treat the disagreement as information about your offline metric.
 | Better | Worse | Eval set doesn't match production. **Most common.** |
 | Better | No change | Change too small to matter, or you measured a proxy nobody cares about |
 | No change | Better | You're not measuring what matters offline |
-| Worse | Better | Your offline metric penalises something users like |
+| Worse | Better | Your offline metric penalizes something users like |
 
-**Believe online**, provided the experiment is properly randomised and powered. Then go
+**Believe online**, provided the experiment is properly randomized and powered. Then go
 and fix the offline metric — every disagreement is a bug in your cheap proxy, and
 fixing it makes the next hundred decisions better.
 
@@ -295,7 +295,7 @@ DAILY = {
     # Economics
     "cost_per_request", "mean_input_tokens", "mean_output_tokens",
 
-    # Behaviour drift — cheap, and moves first
+    # Behavior drift — cheap, and moves first
     "refusal_rate", "abstention_rate", "mean_output_length",
 
     # Business

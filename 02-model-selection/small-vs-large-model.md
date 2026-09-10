@@ -71,7 +71,7 @@ drift.
 judgement than it looks.
 
 **Anything where being confidently wrong is expensive.** Small models fail *silently* —
-they produce fluent, plausible, wrong answers without signalling difficulty. If your
+they produce fluent, plausible, wrong answers without signaling difficulty. If your
 system can't detect that, the cost of the failure is on you.
 
 That last point is the important one and it's about your system, not the model.
@@ -228,7 +228,7 @@ For some products that's the whole argument:
 - **Batch processing** doesn't care at all.
 
 If latency is your constraint, that may decide the model before quality does. Work out
-which constraint is actually binding before optimising the other one.
+which constraint is actually binding before optimizing the other one.
 
 ---
 

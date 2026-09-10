@@ -37,7 +37,7 @@ attempts and only needs to succeed once.
 Prompt instructions are a **preference**, not a **control**. Useful, worth having, and
 never the thing you rely on.
 
-The real defence: give the agent a database connection that **cannot** write. Then it
+The real defense: give the agent a database connection that **cannot** write. Then it
 doesn't matter what the ticket says, what the model decides, or how clever the attack
 is. The capability isn't there.
 
@@ -79,7 +79,7 @@ RULES = {
 ```
 
 This one table gives you most of your safety. Read-only tools can run freely and in
-parallel. Anything that changes the world is limited and serialised. Anything
+parallel. Anything that changes the world is limited and serialized. Anything
 dangerous needs a human.
 
 ---
@@ -128,7 +128,7 @@ def get_order_count(customer_id: str) -> int:
 ```
 
 In the second version, there is no string the model can pass that does something
-unintended. The parameter is a customer ID, it's parameterised, and the query shape is
+unintended. The parameter is a customer ID, it's parameterized, and the query shape is
 fixed.
 
 Same pattern everywhere:

@@ -33,9 +33,9 @@ Real reasons to split:
 
 Bad reasons:
 
-- It matches how a human team is organised. (Human teams are shaped by human
+- It matches how a human team is organized. (Human teams are shaped by human
   constraints — sleep, expertise, hiring. Your software has none of those.)
-- Specialised prompts sound better than one general prompt. (Usually you can just
+- Specialized prompts sound better than one general prompt. (Usually you can just
   write a better single prompt.)
 - It's more modular. (It's more *distributed*, which is not the same thing.)
 
@@ -137,7 +137,7 @@ def research(topic):
 ```
 
 **Only worth it when the subtasks are truly independent.** If worker B needs what
-worker A found, you can't parallelise, and you've added coordination for nothing.
+worker A found, you can't parallelize, and you've added coordination for nothing.
 
 Watch out for:
 - Workers duplicating each other's work (all three search the same thing).

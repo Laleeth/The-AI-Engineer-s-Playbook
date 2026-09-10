@@ -47,7 +47,7 @@ principle, though quality degrades.
 ### Rotary Position Embedding (RoPE)
 
 The common approach in modern models, and the one worth understanding because its
-properties explain a lot of behaviour you'll encounter.
+properties explain a lot of behavior you'll encounter.
 
 Instead of *adding* position information, RoPE **rotates** the query and key vectors by an
 angle proportional to their position.
@@ -76,7 +76,7 @@ position *i* and a rotated key at position *j*, the result depends on `i − j` 
 *relative* distance — not on the absolute positions.
 
 That means the model learns "how far apart are these?" rather than "where exactly is
-this?", which generalises much better.
+this?", which generalizes much better.
 
 ---
 
@@ -174,7 +174,7 @@ notion of order. Position has to be injected explicitly.
 **2. "What's RoPE and why is it used?"**
 
 It rotates queries and keys by an angle proportional to position, so their dot product
-depends on relative distance rather than absolute position. That generalises better than
+depends on relative distance rather than absolute position. That generalizes better than
 learned absolute positions and extends more gracefully beyond training length.
 
 **3. "Can I use a model beyond its trained context length?"**

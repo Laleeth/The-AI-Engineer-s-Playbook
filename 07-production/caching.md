@@ -79,13 +79,13 @@ The most common cache failure in production, and it has no deploy to point at:
 > prefix hash changes. Hit rate drops from 87% to 4%. Latency and cost triple. Nobody
 > looks at deploys, because there wasn't one.
 
-Two defences:
+Two defenses:
 
 **Monitor hit rate as a first-class SLI**, and alert on a drop. It moves immediately and
 points at the cause; a latency alert only tells you something is wrong.
 
 **Treat prompt edits as deploys** — review, canary, rollback. A UI that lets someone change
-production behaviour with no gate is the actual root cause; the cache is just the
+production behavior with no gate is the actual root cause; the cache is just the
 mechanism.
 
 Also worth surfacing the consequence at the moment of the decision:
@@ -110,7 +110,7 @@ def retrieval_key(query, corpus_version, embedding_model_version, k):
 Lower savings than response caching — you still pay for generation — but two properties
 make it valuable:
 
-**It's safe for personalised requests.** "How much protein did I eat today?" is personal;
+**It's safe for personalized requests.** "How much protein did I eat today?" is personal;
 the *nutrition facts* retrieved to answer it are not. So you can cache the expensive
 retrieval step even where you must not cache the answer.
 
@@ -121,7 +121,7 @@ documents. There's no correctness gamble.
 
 ## Layer 3: exact response caching
 
-Cache whole answers, keyed on an exact normalised match.
+Cache whole answers, keyed on an exact normalized match.
 
 This is where key design starts to matter, so start by enumerating what an answer actually
 depends on:
@@ -131,7 +131,7 @@ def response_key(query, principal, ctx):
     return hash_key(
         normalize(query),                 # the question
         principal.permission_scope(),     # WHO CAN SEE WHAT
-        ctx.user_visible_flags,           # personalisation that changes the answer
+        ctx.user_visible_flags,           # personalization that changes the answer
         ctx.corpus_version,               # the documents
         ctx.prompt_version,               # the instructions
         ctx.model_version,                # the model
@@ -146,8 +146,8 @@ Miss any one of those and you have a specific, nameable bug:
 |---|---|
 | Permission scope | **One customer sees another's data** |
 | Corpus version | Stale answers after a document update |
-| Prompt version | Old behaviour persists after a fix |
-| Model version | Mixed behaviour across a migration |
+| Prompt version | Old behavior persists after a fix |
+| Model version | Mixed behavior across a migration |
 | Locale | Wrong regulated claims in a market |
 
 ### Permissions: key on the scope, not the user
@@ -179,9 +179,9 @@ Run it on every PR. This is the incident in
 [../12-senior-scenarios/production-incidents.md](../12-senior-scenarios/production-incidents.md)
 — a semantic cache keyed without a tenant served cross-tenant answers for three weeks.
 
-### Personalisation that's cache-visible
+### Personalization that's cache-visible
 
-You often want *some* personalisation in the key. A nut-allergy flag changes the correct
+You often want *some* personalization in the key. A nut-allergy flag changes the correct
 answer to "is oat milk healthy?"
 
 Include a small set of low-cardinality flags. Which dimensions are cache-visible is a
@@ -199,7 +199,7 @@ judgement your embedding model makes and it doesn't understand your domain.
 
 **If you use it, do these three things:**
 
-**1. Calibrate the threshold on labelled data.** Not by intuition. Sample a few thousand
+**1. Calibrate the threshold on labeled data.** Not by intuition. Sample a few thousand
 near-duplicate pairs, have humans grade "would the same answer be correct for both," and
 pick the threshold at your tolerated false-hit rate. For anything health, legal, or
 financial, that tolerance should be very low.

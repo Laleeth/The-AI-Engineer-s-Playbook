@@ -47,7 +47,7 @@ problem.
 
 **Prefill is parallel and compute-bound. Decode is sequential and
 memory-bandwidth-bound**, hundreds of times slower per token. Hence: input tokens drive cost,
-output tokens drive latency. Optimising the wrong one is the most common wasted week.
+output tokens drive latency. Optimizing the wrong one is the most common wasted week.
 
 **Decode needs more GPUs than prefill despite processing fewer tokens.** This inversion
 surprises people and it's the core intuition in capacity planning.

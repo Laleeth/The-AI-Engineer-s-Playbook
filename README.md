@@ -5,10 +5,10 @@
 <br>
 
 [![verify](https://github.com/Laleeth/The-AI-Engineer-s-Playbook/actions/workflows/verify.yml/badge.svg)](https://github.com/Laleeth/The-AI-Engineer-s-Playbook/actions/workflows/verify.yml)
-[![code blocks verified](https://img.shields.io/badge/code%20blocks-418%20verified-2ea043)](scripts/verify.py)
+[![code blocks verified](https://img.shields.io/badge/code%20blocks-475%20verified-2ea043)](scripts/verify.py)
 [![claims checked](https://img.shields.io/badge/numeric%20claims-re--computed%20in%20CI-2ea043)](scripts/verify.py)
-[![sections](https://img.shields.io/badge/sections-10%20of%2012-f0883e)](ROADMAP.md)
-[![license](https://img.shields.io/badge/license-see%20LICENSE-58a6ff)](LICENSE)
+[![sections](https://img.shields.io/badge/sections-13%20written-2ea043)](ROADMAP.md)
+[![license](https://img.shields.io/badge/license-MIT-58a6ff)](LICENSE)
 
 **Everything here is scenario-driven. Every code block runs. Every number is re-computed in CI.**
 
@@ -48,7 +48,7 @@ It is also a straight reference for people doing that work now.
 - Scraped question lists
 - Buzzword bingo
 - Framework-version trivia that ages in a month
-- Anything with one memorised answer
+- Anything with one memorized answer
 - Architectures nobody would ship
 
 </td>
@@ -74,8 +74,11 @@ flowchart LR
         A --> B["03 · RAG"]
         B --> C["04 · Agents"]
         C --> D["05 · Evaluation"]
-        D --> P["07 · Production"]
+        D --> I["06 · Inference & Serving"]
+        I --> P["07 · Production"]
         P --> S["08 · AI Security"]
+        S --> DP["09 · Data<br/>& Pipelines"]
+        DP --> SD["10 · System<br/>Design Patterns"]
     end
 
     subgraph PRAC["🎯 Practice — attempt before revealing"]
@@ -91,11 +94,13 @@ flowchart LR
 | I want to… | Go to |
 |---|---|
 | Prepare for interviews | [00 — Interview Framework](00-interview-framework/) — read this first |
-| Understand how something works | [01](01-llm-internals/) · [02](02-model-selection/) · [03](03-rag/) · [04](04-agents/) · [05](05-evaluation/) · [07](07-production/) · [08](08-ai-security/) |
-| Practise for an interview | [11 — Coding Rounds](11-coding-rounds/) · [12 — Senior Scenarios](12-senior-scenarios/) |
+| Understand how something works | [01](01-llm-internals/) · [02](02-model-selection/) · [03](03-rag/) · [04](04-agents/) · [05](05-evaluation/) · [06](06-inference-serving/) · [07](07-production/) · [08](08-ai-security/) · [09](09-data-pipelines/) · [10](10-system-design-patterns/) |
+| Practice for an interview | [11 — Coding Rounds](11-coding-rounds/) · [12 — Senior Scenarios](12-senior-scenarios/) |
 | Debug something right now | [rag-debugging](03-rag/rag-debugging.md) · [agent-failure-modes](04-agents/agent-failure-modes.md) · [incident-response](07-production/incident-response.md) |
 | Cut my inference bill | [prefill-vs-decode](01-llm-internals/prefill-vs-decode.md) · [cost-quality-latency](02-model-selection/cost-quality-latency.md) · [reranking](03-rag/reranking.md) |
-| Size an inference fleet | [kv-cache](01-llm-internals/kv-cache.md) · [scaling](12-senior-scenarios/scaling.md) |
+| Size an inference fleet | [capacity-planning](06-inference-serving/capacity-planning.md) · [kv-cache](01-llm-internals/kv-cache.md) · [scaling](12-senior-scenarios/scaling.md) |
+| Serve a model myself | [continuous-batching](06-inference-serving/continuous-batching.md) · [gpu-economics](06-inference-serving/gpu-economics.md) · [autoscaling](06-inference-serving/autoscaling.md) |
+| Get content into the index | [document-parsing](09-data-pipelines/document-parsing.md) · [ingestion-pipelines](09-data-pipelines/ingestion-pipelines.md) · [incremental-indexing](09-data-pipelines/incremental-indexing.md) |
 | Know if my change helped | [regression-testing](05-evaluation/regression-testing.md) |
 | Keep a live system healthy | [observability](07-production/observability.md) · [fallbacks](07-production/fallbacks.md) · [caching](07-production/caching.md) |
 | Secure an AI system | [prompt-injection](08-ai-security/prompt-injection.md) · [authorization](08-ai-security/authorization.md) · [agent-security](08-ai-security/agent-security.md) |
@@ -169,6 +174,16 @@ frameworks · golden datasets · RAG eval · LLM-as-judge · agent eval · regre
 
 <tr><td valign="top">
 
+**[06 · Inference & Serving](06-inference-serving/)**
+
+</td><td valign="top">
+
+serving stacks · **continuous batching** · capacity planning · autoscaling & cold starts · multi-GPU · load balancing · GPU economics
+
+</td><td align="right" valign="top">7</td><td align="right" valign="top">12k</td></tr>
+
+<tr><td valign="top">
+
 **[07 · Production](07-production/)**
 
 </td><td valign="top">
@@ -189,6 +204,26 @@ prompt injection · data exfiltration · tool abuse · PII · **authorization** 
 
 <tr><td valign="top">
 
+**[09 · Data & Pipelines](09-data-pipelines/)**
+
+</td><td valign="top">
+
+**document parsing** · ingestion pipelines · incremental indexing · data quality · corpus changes · backfills · schema & versioning
+
+</td><td align="right" valign="top">7</td><td align="right" valign="top">11k</td></tr>
+
+<tr><td valign="top">
+
+**[10 · System Design Patterns](10-system-design-patterns/)**
+
+</td><td valign="top">
+
+request/response vs. async vs. streaming · human-in-the-loop · **batch vs. real-time** · multi-region · the platform pattern
+
+</td><td align="right" valign="top">5</td><td align="right" valign="top">9k</td></tr>
+
+<tr><td valign="top">
+
 **[11 · Coding Rounds](11-coding-rounds/)**
 
 </td><td valign="top">
@@ -205,15 +240,15 @@ LLM client · async inference · RAG from scratch · agent loop · retry & backo
 
 architecture trade-offs · production incidents · cost vs. quality · build vs. buy · model selection · scaling · staff-level
 
-</td><td align="right" valign="top">7</td><td align="right" valign="top">75k</td></tr>
+</td><td align="right" valign="top">7</td><td align="right" valign="top">76k</td></tr>
 
-<tr><td colspan="2" align="right"><b>Total</b></td><td align="right"><b>54</b></td><td align="right"><b>190k</b></td></tr>
+<tr><td colspan="2" align="right"><b>Total</b></td><td align="right"><b>87</b></td><td align="right"><b>250k</b></td></tr>
 </table>
 
 **60 scenarios and coding problems**, many of which change their constraints round by
 round.
 
-> **Only 03 is about RAG.** Retrieval is one section of eight. The rest covers inference
+> **Only 03 is about RAG.** Retrieval is one section of eleven. The rest covers inference
 > internals, model economics, agents, evaluation, and production operations.
 
 ---
@@ -333,26 +368,33 @@ $ python scripts/verify.py
 
 Verifying The AI Engineer's Playbook
 
-PASS  418 python blocks parse
-PASS  417 internal links resolve
+PASS  475 python blocks parse
+PASS  587 internal links resolve
 PASS  numeric claims match the prose
+PASS  the README describes the repo that exists
 
 All checks passed.
 ```
 
-Three checks, and the third is the unusual one:
+Four checks. The last two are the unusual ones:
 
 | Check | What it catches |
 |---|---|
 | **Python blocks parse** | Code that was never run |
 | **Internal links resolve** | Rot, including anchors into other files |
 | **Numeric claims re-computed** | Prose that drifted away from its arithmetic |
+| **Self-description checked** | This page describing a repo that no longer exists |
 
-That last check re-derives every figure quoted in the docs — the API-vs-self-hosting
-break-even, the storage tables, the 75% context reduction from reranking, the McNemar
-p-value, the sample-size table, the quadratic agent-context growth. **Change a number in
-the prose and CI fails until you change it in [`scripts/verify.py`](scripts/verify.py)
-too.**
+The third re-derives every figure quoted in the docs — the API-vs-self-hosting break-even,
+the storage tables, the 75% context reduction from reranking, the McNemar p-value, the
+sample-size table, the quadratic agent-context growth. **Change a number in the prose and
+CI fails until you change it in [`scripts/verify.py`](scripts/verify.py) too.**
+
+The fourth points the same discipline at this page. The file counts, word counts, section
+counts and scenario counts above are recomputed from the directories on every push, the
+list of unwritten sections is derived from the gaps in the numbering, and the worked
+example below is re-derived wherever it's quoted. It exists because that's where the
+drift actually happened — see below.
 
 <details>
 <summary>Things this process actually caught</summary>
@@ -365,6 +407,15 @@ too.**
 - **An arithmetic inconsistency.** The regression-testing worked example stated 0.79 and
   0.83, while its own breakdown summed to 0.81 and 0.85. Nobody would have caught that by
   reading.
+- **The same inconsistency again, in a file the checks didn't cover.** Fixing the example
+  fixed one copy of it; a second copy in a section README kept the wrong breakdown for
+  months, under prose quoting the right scores. The example is now re-derived from its own
+  numbers wherever it appears, in any file.
+- **This page, describing a repo that no longer existed.** Two sections landed and the
+  totals here stayed at 54 files and 190k words; the "still to come" list named two
+  sections that were already written; and "10 of 12" never added up against a roadmap
+  with thirteen numbered rows. Three claims about the repo, in the one document everyone
+  reads first. That's what the fourth check is for.
 - **An invisible SVG gradient.** A gradient with default `objectBoundingBox` units on a
   zero-height line renders as nothing — which is why the banner's pipeline wire was
   missing until it was rendered and looked at.
@@ -406,18 +457,17 @@ state a hypothesis, say what would *disconfirm* it, and ask for exactly that dat
 
 ---
 
-## Roadmap
+## Every planned section is written
 
-**Ten of twelve sections are written.** Work in progress, and deliberately shared early
-— the failure mode worth catching is a scenario that doesn't match reality, and the only
-way to find that out is to be told.
+All thirteen sections are done. Thirteen sections are written and none are outstanding —
+`00` through `12`, with no gaps left in the numbering.
 
-Still to come: **06** Inference & Serving · **07** Data & Pipelines · **08** Observability
-· **09** Security · **10** System Design Patterns.
+That does not mean it's finished. The material is a claim about how production AI systems
+behave, and claims need contact with people who run them. What's most useful now is being
+told where a scenario doesn't match reality — see
+[CONTRIBUTING.md](CONTRIBUTING.md).
 
-The numbering has gaps because sections are numbered by where they sit in the learning
-path, not by when they were written. Renumbering as each one lands would break links from
-every other file.
+The roadmap remains worth reading for what is deliberately *not* planned, and why.
 
 **[→ Full roadmap, including what is deliberately *not* planned](ROADMAP.md)**
 
@@ -426,22 +476,29 @@ every other file.
 ## Contributing
 
 The most useful contribution is **"this scenario is unrealistic, here's why."** That's the
-failure mode this repo is most exposed to, and the hardest to catch alone.
+failure mode this repo is most exposed to, and the hardest to catch alone. An issue with
+the details beats a pull request that fixes wording.
+
+Close behind: a production incident that isn't represented here, a number that doesn't
+match what you've measured, and a real interview question these sections don't prepare
+you for.
 
 If you're adding content:
 
-- Scenarios need real numbers and competing constraints. If it has one memorised answer,
+- Scenarios need real numbers and competing constraints. If it has one memorized answer,
   it doesn't belong.
 - Follow the existing structure — trade-offs, failure modes, metrics, follow-ups,
   interviewer notes. Those are usually more valuable than the answer.
 - Run `python scripts/verify.py` before opening a PR. CI runs it anyway.
 - If you quote a number, add it to the claims check so it can't drift.
 
+**[→ CONTRIBUTING.md](CONTRIBUTING.md)** has the house style and the full detail.
+
 ---
 
 ## License
 
-See [LICENSE](LICENSE).
+[MIT](LICENSE).
 
 <div align="center">
 <br>

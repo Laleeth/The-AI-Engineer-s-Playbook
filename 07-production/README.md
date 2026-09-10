@@ -91,9 +91,13 @@ config — on every record, so "what changed?" is a filter instead of a guess.
 
 ## Related
 
+- [06-inference-serving/](../06-inference-serving/) — the serving layer underneath, when
+  you run the model yourself
+- [10-system-design-patterns/](../10-system-design-patterns/) — the architectural shapes
+  around fallbacks, caching and async work
 - [08-ai-security/](../08-ai-security/) — the security half of running these systems
 - [05-evaluation/](../05-evaluation/) — measuring quality, which is what "degraded" means
 - [02-model-selection/cost-quality-latency.md](../02-model-selection/cost-quality-latency.md)
-  — the optimisation levers behind cost governance
+  — the optimization levers behind cost governance
 - [00-interview-framework/how-to-answer-debugging.md](../00-interview-framework/how-to-answer-debugging.md)
   — the debugging technique these files assume

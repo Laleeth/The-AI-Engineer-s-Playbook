@@ -75,7 +75,7 @@ If it worked last week and doesn't now, something changed, and the list of thing
 change is short and enumerable. That's a much faster investigation than debugging from
 first principles.
 
-Things that change *without a deploy* — the list worth having memorised:
+Things that change *without a deploy* — the list worth having memorized:
 
 - Documents added, removed, or re-indexed
 - A prompt edited in a management UI
@@ -180,7 +180,7 @@ Close by saying what would have caught this sooner. This is where senior answers
 > immediately after the prompt change — that alert would have fired 30 minutes earlier and
 > pointed straight at it.
 >
-> The deeper issue is that a PM can change production behaviour through a UI with no canary
+> The deeper issue is that a PM can change production behavior through a UI with no canary
 > and no review. That's the actual root cause; the cache is just the mechanism. I'd put
 > prompt changes behind the same canary as code deploys."
 
@@ -249,7 +249,7 @@ hit rate rather than latency to confirm, because it recovers first."
 
 **Prevent:** "Alert on cache hit rate — it would have fired 30 minutes earlier and pointed
 at the cause. And put prompt edits behind a canary, because right now a UI change can alter
-production behaviour with no review."
+production behavior with no review."
 
 ---
 
@@ -268,7 +268,7 @@ production behaviour with no review."
 
 ---
 
-## Practising this
+## Practicing this
 
 The incident scenarios in
 [../12-senior-scenarios/production-incidents.md](../12-senior-scenarios/production-incidents.md)

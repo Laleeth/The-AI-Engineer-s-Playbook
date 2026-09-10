@@ -719,7 +719,7 @@ worth shipping.
 </details>
 
 <details>
-<summary>✅ Reveal the implementation</summary>
+<summary>✅ Reveal the reference implementation</summary>
 
 ```python
 """Statistical comparison of two systems on the same dataset."""
@@ -875,7 +875,7 @@ def compare_by_segment(results_a, results_b, segment_key: str) -> dict:
 ```
 
 **Applied to the scenario:** 0.79 vs. 0.83 on 200 cases. If the systems agree on most
-cases and the discordant pairs favour B 22–14, McNemar gives p ≈ 0.24 — **not
+cases and the discordant pairs favor B 22–14, McNemar gives p ≈ 0.24 — **not
 significant**. The honest answer to the PM is: *"the difference is within noise; we'd need
 roughly 900 cases to detect a 4-point difference reliably. I can expand the eval set, or
 we can ship it behind a canary and measure online."*
@@ -932,7 +932,7 @@ that measures only the former.
 </details>
 
 <details>
-<summary>✅ Reveal the implementation</summary>
+<summary>✅ Reveal the reference implementation</summary>
 
 ```python
 """Stage-separated RAG evaluation."""
@@ -1147,7 +1147,7 @@ cheap quality signal that requires no labels at all.
 </details>
 
 <details>
-<summary>✅ Reveal the implementation</summary>
+<summary>✅ Reveal the reference implementation</summary>
 
 ```python
 """Multi-axis agent evaluation."""

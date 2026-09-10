@@ -1,6 +1,6 @@
 # What Interviewers Actually Test
 
-Most candidates prepare for the wrong thing. They memorise definitions, then get asked
+Most candidates prepare for the wrong thing. They memorize definitions, then get asked
 to debug a latency spike with incomplete information and freeze.
 
 This file is about what's really being assessed, which is usually not what the question
@@ -64,7 +64,7 @@ interview goes.
 Weak answers pick a side. Strong answers say what would change their mind.
 
 > "I'd self-host, because at 200 million requests a month the API bill is $1.7M a year.
-> But that assumes high GPU utilisation — if traffic is spiky, the economics collapse and
+> But that assumes high GPU utilization — if traffic is spiky, the economics collapse and
 > I'd stay on the API. What does the daily traffic curve look like?"
 
 That's the shape. A position, the reasoning, the condition under which it flips, and a
@@ -83,7 +83,7 @@ catches 10-point regressions, not 2-point ones" is a senior sentence.
 
 ### 5. Do you know what you'd skip?
 
-Every plan has a budget. Interviewers want to know you can prioritise.
+Every plan has a budget. Interviewers want to know you can prioritize.
 
 > "I wouldn't build reranking in the first version. I'd ship the simple pipeline,
 > measure retrieval recall, and add reranking when I can point at the queries it fixes."
@@ -96,7 +96,7 @@ Saying what you'd *not* do — and why — is one of the fastest ways to sound s
 
 Worth knowing so you stop spending preparation time on it.
 
-**Memorised definitions.** Nobody cares if you can recite how attention works, unless
+**Memorized definitions.** Nobody cares if you can recite how attention works, unless
 it's load-bearing for the answer. (Knowing *why* KV cache size limits your concurrency —
 that's load-bearing. See [../01-llm-internals/kv-cache.md](../01-llm-internals/kv-cache.md).)
 
@@ -171,7 +171,7 @@ reasoning.
 > look like?"
 
 The second names the decisions, states what would resolve them, and asks. That's the
-behaviour being assessed.
+behavior being assessed.
 
 ---
 
@@ -207,7 +207,7 @@ That last group is the one most candidates skip and interviewers most notice.
 
 From the interviewer notes across this repo:
 
-| Behaviour | What it signals |
+| Behavior | What it signals |
 |---|---|
 | Designing before asking anything | Won't gather requirements on the job |
 | Naming a vendor as the answer | Reads marketing, not systems |
@@ -215,7 +215,7 @@ From the interviewer notes across this repo:
 | Treating quality as one number | Will hide a regression in an average |
 | "We'd use a bigger model" as the fix | Doesn't diagnose |
 | No rollback story | Hasn't operated anything |
-| Can't say what they'd skip | Can't prioritise |
+| Can't say what they'd skip | Can't prioritize |
 | Defends the first idea against evidence | Hard to work with |
 
 That last one is worth dwelling on. Interviewers often push back on a correct answer just
@@ -226,13 +226,13 @@ concession.
 
 ## Green flags
 
-| Behaviour | What it signals |
+| Behavior | What it signals |
 |---|---|
 | Asks about the data distribution, not the average | Has been surprised by a p99 |
 | Names a failure mode unprompted | Has operated something |
 | Does arithmetic out loud | Doesn't guess at capacity |
 | Says "I'd measure X before deciding" | Won't ship on vibes |
-| Names what they'd *not* build | Can prioritise |
+| Names what they'd *not* build | Can prioritize |
 | Says "that changes my answer" | Reasons from evidence |
 | Asks what a wrong answer costs | Thinks about the business |
 
@@ -242,7 +242,7 @@ concession.
 
 If you're preparing, the shortest path:
 
-| To practise | Read |
+| To practice | Read |
 |---|---|
 | Structuring a design answer | [how-to-answer-system-design.md](how-to-answer-system-design.md) |
 | Structuring a debugging answer | [how-to-answer-debugging.md](how-to-answer-debugging.md) |

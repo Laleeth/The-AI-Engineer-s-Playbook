@@ -1,0 +1,41 @@
+name: Something is missing
+description: An incident, question or topic these sections don't prepare you for.
+labels: ["content"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind
+      options:
+        - A production incident that isn't represented
+        - An interview question these sections don't cover
+        - A topic that belongs in an existing section
+        - Scope for one of the planned sections (06, 09, 10)
+    validations:
+      required: true
+
+  - type: textarea
+    id: detail
+    attributes:
+      label: The detail
+      description: >
+        For an incident: what broke, what the evidence looked like, what it turned out to
+        be. For a question: what was asked, at what level, and what a good answer needed.
+    validations:
+      required: true
+
+  - type: input
+    id: where
+    attributes:
+      label: Where it would belong
+      description: A section, if you have a view. Skip it if not.
+      placeholder: 07-production/ — or a new file
+    validations:
+      required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        If you want to write one of the planned sections (`06` Inference & Serving,
+        `09` Data & Pipelines, `10` System Design Patterns), open this issue first so the
+        scope can be agreed — the roadmap sketches are sketches, not commitments.

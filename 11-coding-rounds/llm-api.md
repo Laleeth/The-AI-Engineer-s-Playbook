@@ -130,7 +130,7 @@ task.cancel()                          # no leaked connection, no retry storm
 ---
 
 <details>
-<summary>💡 Reveal a hint (try the problem first)</summary>
+<summary>💡 Reveal a hint</summary>
 
 Three design decisions carry most of the difficulty:
 
@@ -374,7 +374,7 @@ class LLMClient:
                 await asyncio.sleep(delay)
 
             except asyncio.CancelledError:
-                # Propagate immediately. Never retry a cancelled request: the
+                # Propagate immediately. Never retry a canceled request: the
                 # caller has gone away and continuing spends money for nobody.
                 self._log_failure(request_id, attempt + 1, "cancelled", retried=False)
                 raise
@@ -715,7 +715,7 @@ Things a real client needs that the reference implementation deliberately omits:
 | Stream ends without `[DONE]` | Accept accumulated text but flag `finish_reason: "unknown"`; count it |
 | `finish_reason == "length"` | Not an error, but the caller must know the output is truncated — never silently accept |
 | `Retry-After` in HTTP-date format | Parse it, or fall back to computed backoff (do not crash) |
-| Provider returns 429 with `Retry-After: 300` | Honour it, or fail fast if it exceeds your budget — don't sleep 5 minutes inside a request |
+| Provider returns 429 with `Retry-After: 300` | Honor it, or fail fast if it exceeds your budget — don't sleep 5 minutes inside a request |
 | Caller cancels mid-stream | `CancelledError` propagates, connection released by the context manager, no retry |
 | Two callers pass the same `request_id` | Allowed; logging must not assume uniqueness for correctness |
 | Response JSON parses but violates the schema | `PermanentError` — retrying the identical request rarely helps |
@@ -732,7 +732,7 @@ Things a real client needs that the reference implementation deliberately omits:
    default here?
 4. **Twenty application servers share one rate limit.** Does anything in this client
    help? What has to move elsewhere?
-5. **A caller reports that cancelling a request doesn't stop the spend.** Diagnose.
+5. **A caller reports that canceling a request doesn't stop the spend.** Diagnose.
 6. **How do you test this?** Specifically: how do you test the stall timeout, the
    mid-stream break, and the cancellation path?
 7. **Cost logging is wrong by 8% versus the invoice.** Where would you look?

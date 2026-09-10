@@ -1,7 +1,7 @@
 # Cost Control
 
 > **This file is about governance** — attribution, budgets, controls, and the
-> conversations. The *optimisation* levers (routing, model choice, caching, reranking) are
+> conversations. The *optimization* levers (routing, model choice, caching, reranking) are
 > in [../02-model-selection/cost-quality-latency.md](../02-model-selection/cost-quality-latency.md)
 > and [caching.md](caching.md).
 
@@ -18,7 +18,7 @@ Two ideas underneath everything here:
 
 ## Attribution first
 
-Before any optimisation, know where the money goes. Tag every call at the gateway — the one
+Before any optimization, know where the money goes. Tag every call at the gateway — the one
 place every request passes through.
 
 ```python
@@ -89,7 +89,7 @@ that lets finance make a good decision.
 
 ---
 
-## Before assuming user behaviour, look for a bug
+## Before assuming user behavior, look for a bug
 
 When you find a wildly skewed distribution, check the top consumers' traces before
 concluding anything about how people use your product.
@@ -102,7 +102,7 @@ In practice a distribution like that is often:
   auto-refresh, a background job that runs on every page view
 
 Fixing one defect can remove 20% of spend in a week with zero product impact. It's always
-worth checking first, and it's routinely skipped in favour of designing a rate limit.
+worth checking first, and it's routinely skipped in favor of designing a rate limit.
 
 ---
 
@@ -170,7 +170,7 @@ planning conversation and an incident.
 
 ## Where the money actually is
 
-Before optimising, decompose. The answer is usually not where people assume.
+Before optimizing, decompose. The answer is usually not where people assume.
 
 ```python
 def spend_breakdown(records):
@@ -205,7 +205,7 @@ Real patterns, all of which triple a bill with a flat error rate:
 
 **Truncation loops.** Someone lowers `max_tokens` to save money. Responses truncate, fail
 validation, and retry — each retry re-sending the full input, which is where the cost is.
-There's a documented case of this tripling a bill while looking like a cost optimisation.
+There's a documented case of this tripling a bill while looking like a cost optimization.
 
 **Prefix cache invalidation.** A prompt edit through a UI. Hit rate 87% → 4%. No deploy to
 point at.
@@ -317,7 +317,7 @@ documented override with an owner.
 
 **4. "Your top 3% of users are 60% of spend. What do you do?"**
 
-Look at their traces before assuming it's user behaviour — a meaningful share is usually a
+Look at their traces before assuming it's user behavior — a meaningful share is usually a
 product defect. Then segment the rest into legitimate power users and automated use, and
 bring the distribution to a pricing conversation rather than unilaterally throttling.
 
@@ -325,7 +325,7 @@ bring the distribution to a pricing conversation rather than unilaterally thrott
 
 That's customer acquisition, not cost of goods. Evaluate it against conversion — if
 AI-active free users convert several times better, the spend may be underfunded. That
-reframe is worth more than any optimisation.
+reframe is worth more than any optimization.
 
 **6. "Which matters more, cost or quality?"**
 
@@ -339,7 +339,7 @@ saving. Then present the options table and let the business choose the row.
 - Attribute at the gateway, before you need to. Include `environment`.
 - Measure cost per *unit of work*, not total. Per resolved unit is the business number.
 - Bring the distribution, not the average — spend is extremely lopsided.
-- Check for a product defect before assuming user behaviour.
+- Check for a product defect before assuming user behavior.
 - Budgets degrade in tiers: batch first, quality before availability, never silent.
 - Budget per workload, not globally.
 - Project burn rate; alert at day 6, not day 27.

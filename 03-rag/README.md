@@ -72,7 +72,7 @@ data the user can't see.
 
 **Reranking makes the system cheaper AND better.** Retrieve 50, rerank, send 5. You cut
 context tokens by 75% and quality improves, because you removed distracting text. Most
-optimisations trade one for the other. This one doesn't.
+optimizations trade one for the other. This one doesn't.
 
 **Embeddings can't tell E-4471 from E-4472.** Both are short strings with a code in the
 same context, so their vectors are nearly identical. Semantically correct, operationally
@@ -102,6 +102,8 @@ exactly, with no extra infrastructure.
 
 ## Related
 
+- [09-data-pipelines/](../09-data-pipelines/) — getting content into the index, and
+  keeping it correct as the corpus changes
 - [05-evaluation/rag-evaluation.md](../05-evaluation/rag-evaluation.md) — measuring
   retrieval and generation separately
 - [11-coding-rounds/rag-from-scratch.md](../11-coding-rounds/rag-from-scratch.md) — build

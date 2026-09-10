@@ -716,7 +716,7 @@ comparability problem entirely.
 </details>
 
 <details>
-<summary>✅ Reveal the implementation</summary>
+<summary>✅ Reveal the reference implementation</summary>
 
 ```python
 """BM25 + dense retrieval with reciprocal rank fusion."""
@@ -906,7 +906,7 @@ tombstone that isn't checked at query time is not a deletion.
 </details>
 
 <details>
-<summary>✅ Reveal the implementation</summary>
+<summary>✅ Reveal the reference implementation</summary>
 
 ```python
 """Permission-aware retrieval and versioned document updates."""

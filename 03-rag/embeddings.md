@@ -25,7 +25,7 @@ def cosine(a, b):
     return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)))
 ```
 
-**Normalise once, at index time.** If every stored vector has length 1, cosine
+**Normalize once, at index time.** If every stored vector has length 1, cosine
 similarity is just a dot product, and searching your whole corpus becomes one matrix
 multiply:
 
@@ -328,7 +328,7 @@ pair.
 
 ## What to remember
 
-- Normalise vectors at index time; then search is one matrix multiply.
+- Normalize vectors at index time; then search is one matrix multiply.
 - Bind the embedding model version to the index and refuse mismatches. This is the
   most common silent failure in RAG.
 - Test on your data, not benchmarks — and test with the reranker in place.

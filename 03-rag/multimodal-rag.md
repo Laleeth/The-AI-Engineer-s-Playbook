@@ -103,7 +103,7 @@ def search_images(query, model, index):
     return index.search(model.embed_text(query))
 ```
 
-**Good for:** photo libraries, product catalogues, "find me a picture of X." Visual
+**Good for:** photo libraries, product catalogs, "find me a picture of X." Visual
 similarity is the thing you care about.
 
 **Weaker for:** documents. Joint image-text embedding models are typically trained on
